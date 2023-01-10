@@ -4,7 +4,9 @@ import s from './welcome.module.scss'
 
 export const Second = () => {
   return <div class={s.card}>
-    <img src={welcome2} />
+    <svg>
+      <use xlinkHref='#welcome2'></use>
+    </svg>
     <div class={s.intro}>
       <span>超多图标</span><br />
       <span>平铺选分类更好用</span>

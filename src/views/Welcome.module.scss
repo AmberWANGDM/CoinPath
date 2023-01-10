@@ -12,6 +12,10 @@
     justify-content: center;
     align-items: center;
     padding-top: 18px;
+    >svg{
+      width: 160px;
+      height: 160px;
+    }
   }
 
   main {
@@ -39,9 +43,11 @@
 // 从哪里进入
 .slide_fade_enter_from{
   transform: translateX(100vw);
+  opacity: 0;
 }
 
 // 离开去哪
 .slide_fade_leave_to {
   transform: translateX(-100vw);
+  opacity: 0;
 }
