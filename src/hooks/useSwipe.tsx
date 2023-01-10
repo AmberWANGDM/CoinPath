@@ -1,8 +1,19 @@
 import { computed, onMounted, onUnmounted, ref, Ref } from "vue";
 
+// 类型别名
 type Point = { x: number, y: number }
 
-export const useSwipe = (element: Ref<HTMLElement | null>) => {
+// 配置项
+interface Options {
+  beforeStart?: (e: TouchEvent) => void,
+  afterStart?: (e: TouchEvent) => void,
+  beforeMove?: (e: TouchEvent) => void,
+  afterMove?: (e: TouchEvent) => void,
+  beforeEnd?: (e: TouchEvent) => void,
+  afterEnd?: (e: TouchEvent) => void,
+}
+
+export const useSwipe = (element: Ref<HTMLElement | undefined>, options?: Options) => {
   // 开始和结束坐标
   const start = ref<Point>()
   const end = ref<Point>()
@@ -34,6 +45,7 @@ export const useSwipe = (element: Ref<HTMLElement | null>) => {
   })
 
   const onStart = (ev: TouchEvent) => {
+    options?.beforeStart?.(ev)
     // 记录开始位置
     end.value = start.value = {
       x: ev.touches[0].clientX,
@@ -41,21 +53,26 @@ export const useSwipe = (element: Ref<HTMLElement | null>) => {
     }
     // 正在滑动
     swiping.value = true
+    options?.afterStart?.(ev)
   }
 
   const onMove = (ev: TouchEvent) => {
+    options?.beforeMove?.(ev)
     // 结束坐标就是touchmove的最后一刻
     end.value = {
       x: ev.touches[0].clientX,
       y: ev.touches[0].clientY
     }
+    options?.afterMove?.(ev)
   }
 
   const onEnd = (ev: TouchEvent) => {
+    options?.beforeEnd?.(ev)
     // 结束滑动
     swiping.value = false
     start.value = undefined
     end.value = undefined
+    options?.afterEnd?.(ev)
   }
 
   // 组件挂载时给元素添加touch事件
