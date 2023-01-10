@@ -3,6 +3,20 @@ import { RouteLocationNormalizedLoaded, RouterView, useRoute, useRouter } from '
 import { useSwipe } from '../hooks/useSwipe';
 import { throttle } from '../shared/throttle';
 import s from './Welcome.module.scss'
+
+// Record 是 TypeScript 中的一个内置类型，它可以用来描述一个对象的类型
+// 例如，我们可以用 Record 来描述一个对象，它的键是字符串，值是字符串
+// const obj: Record<string, string> = {
+//   name: 'jack',
+//   age: '18'
+// }
+// 用来描述路由跳转的映射
+const pushMap: Record<string, string> = {
+  'Welcome1': '/welcome/2',
+  'Welcome2': '/welcome/3',
+  'Welcome3': '/start'
+}
+
 export const Welcome = defineComponent({
   setup: (props, context) => {
     const route = useRoute()
@@ -14,17 +28,15 @@ export const Welcome = defineComponent({
     })
     // 用节流函数包装push方法，防止滑动过快
     const push = throttle(() => {
-      if (route.name === 'Welcome1') {
-        router.push('/welcome/2')
-      } else if (route.name === 'Welcome2') {
-        router.push('/welcome/3')
-      } else if (route.name === 'Welcome3') {
-        router.push('/start')
-      }
+      // 获取路由名称，如果没有名称，就默认为Welcome1
+      const name = (route.name || 'Welcome1').toString()
+      // 跳转到下一个路由。例如，如果当前路由是Welcome1，那么就跳转到Welcome2
+      router.push(pushMap[name])
     }, 500)
+
+    // 监听swiping和direction的变化，如果滑动中且方向是向左，就跳转到下一个路由
     watchEffect(() => {
-      // console.log(swiping.value, direction.value)
-      if (swiping.value && direction.value === 'left') { // 向左滑动切换
+      if (swiping.value && direction.value === 'left') {
         push()
       }
     })
