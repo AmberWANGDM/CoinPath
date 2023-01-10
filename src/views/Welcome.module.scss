@@ -32,7 +32,7 @@
 // 正在进入 离开
 .slide_fade_enter_active,
 .slide_fade_leave_active {
-  transition: all 0.6s ease-in-out;
+  transition: all var(--animation-duration) ease-in-out;
   position: absolute;
   top: 0;
   left: 0;
