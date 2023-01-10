@@ -8,7 +8,8 @@ export const Welcome = defineComponent({
       <header >
         <img src={logo} />
       </header>
-      <main><RouterView /></main>
+      <main><RouterView name="main" /></main>
+      <footer><RouterView name="footer" /></footer>
     </div>
     )
   }
