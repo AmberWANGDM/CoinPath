@@ -7,11 +7,9 @@ export const Icon = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <div>
-        <svg class={s.icon}>
-          <use xlinkHref={'#' + props.name}></use>
-        </svg>
-      </div>
+      <svg class={s.icon}>
+        <use xlinkHref={'#' + props.name}></use>
+      </svg>
     )
   }
 })
