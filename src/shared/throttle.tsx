@@ -4,19 +4,21 @@
  * @param time 间隔时间
  * @returns 
  */
-export const throttle = (fn: Function, time: number) => {
+export const throttle = <T extends ((...args: any[]) => any)>(fn: T, time: number) => {
   let timer: number | undefined = undefined
-  return (...args: any[]) => {
+  let result: ReturnType<T>
+  return (...args: Parameters<T>) => {
     // 如果timer存在，说明还在等待，直接返回
     if (timer) {
-      return
+      return result
     } else {
       // 否则执行函数，并设置timer
-      fn(...args)
+      result = fn(...args)
       // 用setTimeout模拟setInterval
       timer = setTimeout(() => {
         timer = undefined
       }, time)
+      return result
     }
   }
 }
