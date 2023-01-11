@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from 'vue';
-import s from './icon.module.scss';
+import s from './Icon.module.scss';
 
 export type iconName = 'add' | 'logo' | 'welcome1' | 'welcome2' | 'welcome3'
 export const Icon = defineComponent({
