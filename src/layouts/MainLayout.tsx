@@ -9,14 +9,12 @@ export const MainLayout = defineComponent({
   setup: (props, context) => {
     return () => (
       <div>
-        <Navbar>
+        <Navbar>{
           {
-            {
-              title: () => context.slots.title?.(),
-              icon: () => context.slots.icon?.()
-            }
+            title: () => context.slots.title?.(),
+            icon: () => context.slots.icon?.()
           }
-        </Navbar>
+        }</Navbar>
         {context.slots.default?.()}
       </div>
     )
