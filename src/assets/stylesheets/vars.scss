@@ -9,7 +9,7 @@
   --animation-duration:0.5s;
   // 按钮
   --button-bg:#FAAD14;
-  --button-text:#FFFCF0;
+  --button-text:#3D3D3D;
   --button-font-size:18px;
   --button-radius:12px;
   --button-height:48px;
@@ -17,14 +17,15 @@
   --float-button-bg:var(--button-bg);
   --float-button-text:var(--button-text);
   // Navbar
-  --navbar-bg:var(--button-bg);
+  --navbar-bg-start:#FAAD14;
+  --navbar-bg-end:#ffd666;
   --navbar-text-color:var(--button-text);
   // Overlay
   --z-index-overlay:20;
   --overlay-mask-bg:rgba(0,0,0,0.2);
   --overlay-content-bg:#fff;
   --top-safe-area-height:26px;
-  --overlay-user-bg: #d48806;
+  --overlay-user-bg: #FAAD14;
   --overlay-user-text: var(--button-text);
   --overlay-user-login-text:#ffe58f;
   --overlay-icon-color:#FAAD14;

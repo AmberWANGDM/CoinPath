@@ -5,7 +5,6 @@ import { Button } from '../shared/Button/Button';
 import { Center } from '../shared/Center/Center';
 import { FloatButton } from '../shared/FloatButton/FloatButton';
 import { Icon } from '../shared/Icon/Icon';
-import { Navbar } from '../shared/Navbar/Navbar';
 import { Overlay } from '../shared/Overlay/Overlay';
 import s from './StartPage.module.scss';
 
