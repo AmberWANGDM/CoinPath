@@ -1,0 +1,25 @@
+.navbar{
+  color: var(--navbar-text-color);
+  background-color: var(--navbar-bg);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 12px 8px;
+  padding-top: 20px;
+  padding-bottom: 0;
+    > .icon_wrapper{
+      width: 55px;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > *{
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    >.title{
+      font-size: 24px;
+      font-weight: 500;
+    }
+}
