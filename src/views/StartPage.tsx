@@ -1,5 +1,6 @@
 import { defineComponent, ref } from 'vue';
 import { RouterLink } from 'vue-router';
+import { MainLayout } from '../layouts/MainLayout';
 import { Button } from '../shared/Button/Button';
 import { Center } from '../shared/Center/Center';
 import { FloatButton } from '../shared/FloatButton/FloatButton';
@@ -14,31 +15,29 @@ export const StartPage = defineComponent({
     const onClickMenu = () => {
       refOverlayVisible.value = !refOverlayVisible.value
     }
-    const onClick = () => {
-      console.log('click');
-    };
     return () => (
-      <div>
-        <nav>
-          <Navbar>
-            {
-              { title: () => 'CoinPath', icon: () => <Icon name="menu" class={s.navIcon} onClick={onClickMenu} /> }
+      <MainLayout>{
+        {
+          title: () => 'CoinPath',
+          icon: () => <Icon name="menu" class={s.navIcon} onClick={onClickMenu} />,
+          default: () => <>
+            <Center class={s.start_center_wrapper}>
+              <Icon name="startCenter" class={s.start_center} />
+            </Center>
+            <div class={s.button_wrapper}>
+              <RouterLink to="/items/create">
+                <Button class={s.button}>开始记账</Button>
+              </RouterLink>
+            </div>
+            <RouterLink to="/items/create">
+              <FloatButton iconName='add' />
+            </RouterLink>
+            {refOverlayVisible.value &&
+              <Overlay onClose={() => { refOverlayVisible.value = false }} />
             }
-          </Navbar>
-        </nav>
-        <Center class={s.start_center_wrapper}>
-          <Icon name="startCenter" class={s.start_center} />
-        </Center>
-        <div class={s.button_wrapper}>
-          <RouterLink to="/items/create">
-            <Button class={s.button}>开始记账</Button>
-          </RouterLink>
-        </div>
-        <RouterLink to="/items/create">
-          <FloatButton iconName='add' />
-        </RouterLink>
-        {refOverlayVisible.value && <Overlay onClose={() => { refOverlayVisible.value = false }} />}
-      </div>
+          </>
+        }
+      }</MainLayout>
     )
   }
 })
