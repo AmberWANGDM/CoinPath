@@ -19,4 +19,9 @@
   // Navbar
   --navbar-bg:var(--button-bg);
   --navbar-text-color:var(--button-text);
+  // Overlay
+  --z-index-overlay:20;
+  --overlay-mask-bg:rgba(0,0,0,0.2);
+  --overlay-content-bg:#fff;
+  --top-safe-area-height:26px;
 }

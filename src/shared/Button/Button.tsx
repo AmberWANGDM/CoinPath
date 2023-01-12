@@ -3,7 +3,7 @@ import s from './Button.module.scss'
 
 // 定义组件的 Props 类型
 interface Props {
-  onClick: (e: MouseEvent) => void;
+  onClick?: (e: MouseEvent) => void;
 }
 
 export const Button = defineComponent<Props>({
