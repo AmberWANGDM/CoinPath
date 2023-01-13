@@ -1,0 +1,11 @@
+.tabs{
+  &_nav{
+    display: flex;
+>li{
+  &.selected{
+    background: red;
+  }
+}
+  }
+
+}
