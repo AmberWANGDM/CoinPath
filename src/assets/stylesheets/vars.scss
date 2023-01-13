@@ -4,29 +4,30 @@
   --welcome-next-btn-color: #fff7e8;
   --welcome-font-color: #ff7d00;
   // 渐变背景
-  --welcome-bgc-bottom: #FFCF8B;
+  --welcome-bgc-bottom: #ffcf8b;
   --welcome-bgc-top: #fff3de;
-  --animation-duration:0.5s;
+  --animation-duration: 0.5s;
   // 按钮
-  --button-bg:#FAAD14;
-  --button-text:#3D3D3D;
-  --button-font-size:18px;
-  --button-radius:12px;
-  --button-height:48px;
+  --button-bg: #faad14;
+  --button-text: #3d3d3d;
+  --button-font-size: 18px;
+  --button-radius: 12px;
+  --button-height: 48px;
+  --button-border-color: #ddd;
   // 浮动按钮
-  --float-button-bg:var(--button-bg);
-  --float-button-text:var(--button-text);
+  --float-button-bg: var(--button-bg);
+  --float-button-text: var(--button-text);
   // Navbar
-  --navbar-bg-start:#FAAD14;
-  --navbar-bg-end:#ffd666;
-  --navbar-text-color:var(--button-text);
+  --navbar-bg-start: #faad14;
+  --navbar-bg-end: #ffd666;
+  --navbar-text-color: var(--button-text);
   // Overlay
-  --z-index-overlay:20;
-  --overlay-mask-bg:rgba(0,0,0,0.2);
-  --overlay-content-bg:#fff;
-  --top-safe-area-height:26px;
-  --overlay-user-bg: #FAAD14;
+  --z-index-overlay: 20;
+  --overlay-mask-bg: rgba(0, 0, 0, 0.2);
+  --overlay-content-bg: #fff;
+  --top-safe-area-height: 26px;
+  --overlay-user-bg: #faad14;
   --overlay-user-text: var(--button-text);
-  --overlay-user-login-text:#ffe58f;
-  --overlay-icon-color:#FAAD14;
+  --overlay-user-login-text: #ffe58f;
+  --overlay-icon-color: #faad14;
 }

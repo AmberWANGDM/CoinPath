@@ -10,16 +10,11 @@ export const Overlay = defineComponent({
     }
   },
   setup: (props, context) => {
-    // 点击遮罩层时，关闭菜单
-    const close = () => {
-      props.onClose?.()
-    }
     // 点击登录
     const onClickSignIn = () => { }
-
     return () =>
       <>
-        <div class={s.mask} onClick={close}>
+        <div class={s.mask} onClick={props.onClose}>
         </div>
         <div class={s.overlay}>
           <section class={s.currentUser}>
