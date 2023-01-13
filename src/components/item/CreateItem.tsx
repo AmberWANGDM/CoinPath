@@ -16,7 +16,7 @@ export const CreateItem = defineComponent({
         title: () => '记一笔',
         icon: () => <Icon name="back" class={s.navIcon} />,
         default: () => (
-          <Tabs selected={refKind.value} onUpdateSelected={(name) => refKind.value = name}>
+          <Tabs v-model:selected={refKind.value}>
             <Tab name="支出">
               支出 icon 列表
             </Tab>

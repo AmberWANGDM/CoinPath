@@ -6,10 +6,6 @@ export const Tabs = defineComponent({
     selected: {
       type: String as PropType<string>,
       required: false,
-    },
-    onUpdateSelected: {
-      type: Function as PropType<(name: string) => void>,
-      required: false,
     }
   },
   setup: (props, context) => {
@@ -27,7 +23,7 @@ export const Tabs = defineComponent({
             tabs.map(item => {
               // 获取子组件的 name 属性
               return <li class={item.props?.name === props.selected ? s.selected : ''}
-                onClick={() => props.onUpdateSelected?.(item.props?.name)}>
+                onClick={() => context.emit('update:selected', item.props?.name)}>
                 {item.props?.name}
               </li>
             }
