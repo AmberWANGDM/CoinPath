@@ -1,4 +1,3 @@
-import welcome3 from '../../assets/icons/welcome3.svg'
 import s from './welcome.module.scss'
 
 export const Third = () => {

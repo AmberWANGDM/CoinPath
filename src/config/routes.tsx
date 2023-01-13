@@ -1,11 +1,11 @@
 import { RouteRecordRaw } from "vue-router";
 import { Welcome } from "../views/Welcome";
-import { First } from "../components/Welcome/First";
-import { Second } from "../components/Welcome/Second";
-import { Third } from "../components/Welcome/Third";
-import { FirstActions } from "../components/Welcome/FirstActions";
-import { SecondActions } from "../components/Welcome/SecondActions";
-import { ThirdActions } from "../components/Welcome/ThirdActions";
+import { First } from "../components/welcome/First";
+import { Second } from "../components/welcome/Second";
+import { Third } from "../components/welcome/Third";
+import { FirstActions } from "../components/welcome/FirstActions";
+import { SecondActions } from "../components/welcome/SecondActions";
+import { ThirdActions } from "../components/welcome/ThirdActions";
 import { StartPage } from "../views/StartPage";
 import { ItemsPage } from "../views/ItemsPage";
 import { ItemList } from "../components/item/ItemList";

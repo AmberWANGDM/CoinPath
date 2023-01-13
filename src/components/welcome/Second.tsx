@@ -1,5 +1,3 @@
-import { RouterLink } from 'vue-router';
-import welcome2 from '../../assets/icons/welcome2.svg'
 import s from './welcome.module.scss'
 
 export const Second = () => {
