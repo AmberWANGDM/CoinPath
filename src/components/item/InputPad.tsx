@@ -1,13 +1,8 @@
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { Icon } from '../../shared/Icon/Icon';
-import { time } from '../../shared/time';
 import s from './InputPad.module.scss';
+import { DatePicker, Popup } from 'vant';
 export const InputPad = defineComponent({
-  props: {
-    name: {
-      type: String as PropType<string>
-    }
-  },
   setup: (props, context) => {
     const buttons = [
       { text: '1', onClick: () => { } },
@@ -27,15 +22,30 @@ export const InputPad = defineComponent({
       { text: 'Del', onClick: () => { } },
       { text: '提交', onClick: () => { } }
     ]
-    const refDate = ref<Date>()
+
     const now = new Date()
+    const year = now.getFullYear().toString()
+    const month = now.getMonth().toString() + 1
+    const day = now.getDate().toString().padStart(2, '0')
+
+    const refDate = ref<string[]>([year, month, day])
+    const refDatePickerVisible = ref(false)
+
+    const showDatePicker = () => { refDatePickerVisible.value = true }
+    const hideDatePicker = () => { refDatePickerVisible.value = false }
+    const setDate = ({ selectedValues }: any) => { refDate.value = selectedValues; refDatePickerVisible.value = false }
+
     return () => (
       <>
         <div class={s.dateAndAmount}>
           <span class={s.date}>
             <Icon name="date" class={s.icon} />
             <span>
-              <input type="date" value={time(now).format()} />
+              <span onClick={showDatePicker}>{refDate.value[0] + '年' + refDate.value[1] + '月' + refDate.value[2]
+                + '日'}</span>
+              <Popup v-model:show={refDatePickerVisible.value} position='bottom' >
+                <DatePicker modelValue={refDate.value} title="选择日期" onCancel={hideDatePicker} onConfirm={setDate} />
+              </Popup>
             </span>
           </span>
           <span class={s.amount}>199.12</span>
