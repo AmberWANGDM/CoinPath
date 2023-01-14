@@ -4,6 +4,7 @@ import s from './InputPad.module.scss';
 import { DatePicker, Popup } from 'vant';
 export const InputPad = defineComponent({
   setup: (props, context) => {
+    // 数字键盘
     const buttons = [
       { text: '1', onClick: () => { appendText(1) } },
       { text: '2', onClick: () => { appendText(2) } },
@@ -16,11 +17,63 @@ export const InputPad = defineComponent({
       { text: '9', onClick: () => { appendText(9) } },
       { text: '0', onClick: () => { appendText(0) } },
       { text: '.', onClick: () => { appendText('.') } },
-      { text: 'Del', onClick: () => { } },
-      { text: '清空', onClick: () => { } },
+      { text: 'Del', onClick: () => { delText() } },
+      { text: '清空', onClick: () => { clearText() } },
       { text: '提交', onClick: () => { } }
     ]
 
+    const refAmount = ref('0')
+
+    // 输入数字
+    const appendText = (n: string | number) => {
+      const nString = n.toString()
+      const dotIndex = refAmount.value.indexOf('.')
+      // 验证用户输入
+      if (refAmount.value.length >= 16) { return }// 不能超过16位
+      if (dotIndex >= 0 && refAmount.value.length - dotIndex >= 3) { return }// 小数点后只允许两位
+      // case1: 输入小数点
+      if (nString === '.') {
+        if (dotIndex >= 0) { // 如果已经有小数点就不能再输入小数点
+          return
+        }
+      }
+      // case2: 输入零
+      else if (nString === '0') {
+        if (refAmount.value === '0') { return } // 值为零则不能再输入零
+        // 小数点后一位为零则不能再输入零
+        if (dotIndex >= 0 && refAmount.value.length - dotIndex === 2 && refAmount.value[refAmount.value.length - 1] === '0') { return }
+      }
+      // case3: 输入1~9，当值为0时先清空
+      else {
+        if (refAmount.value === '0') { refAmount.value = '' }
+      }
+      // append
+      refAmount.value += n.toString()
+    }
+
+    // 删除数字
+    const delText = () => {
+      // 当值只剩一位，置为0
+      if (refAmount.value.length === 1) {
+        clearText()
+        return
+      }
+      // 当值不为0且长度大于1时，删除最后一位
+      if (refAmount.value.length > 1 && refAmount.value !== '0') {
+        refAmount.value = refAmount.value.slice(0, -1)
+      }
+      // 对于小数，如果小数点后只剩一位，同时删除小数点
+      const dotIndex = refAmount.value.indexOf('.')
+      if (dotIndex >= 0 && refAmount.value.length - dotIndex === 1) {
+        refAmount.value = refAmount.value.slice(0, -1)
+      }
+    }
+
+    // 清空数字
+    const clearText = () => { refAmount.value = '0' }
+
+
+    // 日期
     const now = new Date()
     const year = now.getFullYear().toString()
     const month = now.getMonth().toString() + 1
@@ -28,10 +81,6 @@ export const InputPad = defineComponent({
 
     const refDate = ref<string[]>([year, month, day])
     const refDatePickerVisible = ref(false)
-
-    const refAmount = ref('')
-    const appendText = (n: string | number) => { refAmount.value += n.toString() }
-
     const showDatePicker = () => { refDatePickerVisible.value = true }
     const hideDatePicker = () => { refDatePickerVisible.value = false }
     const setDate = ({ selectedValues }: any) => { refDate.value = selectedValues; refDatePickerVisible.value = false }
