@@ -1,4 +1,5 @@
 import { defineComponent, PropType } from 'vue';
+import s from './TagEdit.module.scss';
 export const TagEdit = defineComponent({
   props: {
     name: {

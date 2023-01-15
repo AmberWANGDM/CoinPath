@@ -1,27 +1,33 @@
-.navbar{
+.navbar {
   // 渐变
-  background: linear-gradient(180deg, var(--navbar-bg-start) 30%, var(--navbar-bg-end) 100%);
-  color:var(--navbar-text-color);
+  background: linear-gradient(
+    180deg,
+    var(--navbar-bg-start) 30%,
+    var(--navbar-bg-end) 100%
+  );
+  color: var(--navbar-text-color);
   display: flex;
   justify-content: flex-start;
   align-items: center;
   padding: 12px 8px;
   padding-top: 20px;
   padding-bottom: 0;
-  > .icon_wrapper{
+  > .icon_wrapper {
     width: 55px;
     height: 55px;
     display: flex;
     justify-content: center;
     align-items: center;
     fill: #3d3d3d;
-      > *{
-        max-width: 100%;
-        max-height: 100%;
-      }
+    > * {
+      width: 28px;
+      height: 28px;
+      max-width: 100%;
+      max-height: 100%;
     }
-    >.title{
-      font-size: 24px;
-      font-weight: 500;
-    }
+  }
+  > .title {
+    font-size: 24px;
+    font-weight: 500;
+  }
 }

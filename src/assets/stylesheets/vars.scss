@@ -30,4 +30,12 @@
   --overlay-user-text: var(--button-text);
   --overlay-user-login-text: #ffe58f;
   --overlay-icon-color: #faad14;
+  // tags
+  --input-min-height: 48px;
+  --input-border-color: #ff7d00;
+  --input-radius: var(--button-radius);
+  --input-shadow: rgba(0, 0, 0, 0.25);
+  --error-color: #e10505;
+  --emoji-nav-text: #999;
+  --emoji-nav-text-selected: #333;
 }
