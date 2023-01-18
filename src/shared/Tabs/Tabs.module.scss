@@ -1,9 +1,13 @@
 .tabs {
+  position: relative;
   &_nav {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1;
     > li {
       position: relative;
       flex-grow: 1;
