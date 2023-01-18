@@ -8,13 +8,13 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    background-color: var(--navbar-bg-end);
     > li {
       position: relative;
       flex-grow: 1;
       flex-shrink: 0;
       font-size: 16px;
       padding: 12px 0;
-      background-color: var(--navbar-bg-end);
       border: 1px solid var(--navbar-bg-end);
       &::after {
         content: '';

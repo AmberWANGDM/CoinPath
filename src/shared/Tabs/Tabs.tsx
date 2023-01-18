@@ -6,6 +6,9 @@ export const Tabs = defineComponent({
     selected: {
       type: String as PropType<string>,
       required: false,
+    },
+    classPrefix: {
+      type: String as PropType<string>,
     }
   },
   setup: (props, context) => {
@@ -17,12 +20,16 @@ export const Tabs = defineComponent({
           throw new Error('Tabs 的子组件必须是 Tab')
         }
       })
-      return <div class={s.tabs}>
-        <ol class={s.tabs_nav}>
+      const cp = props.classPrefix
+      return <div class={[s.tabs, cp + '_tabs']}>
+        <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
           {
             tabs.map(item => {
               // 获取子组件的 name 属性
-              return <li class={item.props?.name === props.selected ? s.selected : ''}
+              return <li class={
+                [item.props?.name === props.selected ? [s.selected, cp + '_selected'] : '',
+                cp + '_tabs_nav_item']
+              }
                 onClick={() => context.emit('update:selected', item.props?.name)}>
                 {item.props?.name}
               </li>
