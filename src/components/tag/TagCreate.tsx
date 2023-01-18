@@ -3,6 +3,7 @@ import { MainLayout } from '../../layouts/MainLayout';
 import { Button } from '../../shared/Button/Button';
 import { EmojiSelect } from '../../shared/EmojiSelect/EmojiSelect';
 import { Icon } from '../../shared/Icon/Icon';
+import { Rules, validate } from '../../shared/validate';
 import s from './TagCreate.module.scss';
 export const TagCreate = defineComponent({
   props: {
@@ -15,23 +16,24 @@ export const TagCreate = defineComponent({
       name: '',
       sign: ''
     })
+    const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
+
     const onSubmit = (e: Event) => {
       e.preventDefault()
-      const rules = [
-        { key: 'name', required: true, message: '必填' },
-        { key: 'name', patten: /^.{0,4}$/, message: '最多4个字符' },
-        { key: 'sign', required: true }
+      // ts 会提前自动推断 rules 的类型, 需要导出 Rules 类型
+      const rules: Rules<typeof formData> = [
+        { key: 'name', type: 'required', message: '必填' },
+        { key: 'name', type: 'pattern', regex: /^.{0,4}$/, message: '最多4个字符' },
+        { key: 'sign', type: 'required', message: '请选择符号' }
       ]
-      const errors = validate(formData, rules)
-      /* 
-      key的子集
-      errors = {
-        name: ['必填', '最多4个字符'],
-        sign: ['必填']
-      }
-      */
-      console.log(toRaw(formData))
+      // typescript 的 keyof 语法 https://www.typescriptlang.org/docs/handbook/2/keyof-types.html
+      Object.assign(errors, {
+        name: undefined,
+        sign: undefined
+      })
+      Object.assign(errors, validate(formData, rules))
     }
+
     return () => (
       <MainLayout>{{
         title: () => '新建标签',
@@ -42,10 +44,10 @@ export const TagCreate = defineComponent({
               <label class={s.formLabel}>
                 <span class={s.formItem_name}>标签名</span>
                 <div class={s.formItem_value}>
-                  <input class={[s.formItem, s.input, s.error]} v-model={formData.name}></input>
+                  <input class={[s.formItem, s.input]} v-model={formData.name}></input>
                 </div>
                 <div class={s.formItem_errorHint}>
-                  <span>{errors['name'][0]}</span>
+                  <span>{errors['name'] ? errors['name'][0] : ' '}</span>
                 </div>
               </label>
             </div>
@@ -53,10 +55,10 @@ export const TagCreate = defineComponent({
               <label class={s.formLabel}>
                 <span class={s.formItem_name}>符号</span><span>{formData.sign}</span>
                 <div class={s.formItem_value}>
-                  <EmojiSelect class={[s.formItem, s.emojiList, s.error]} v-model={formData.sign} />
+                  <EmojiSelect class={[s.formItem, s.emojiList]} v-model={formData.sign} />
                 </div>
                 <div class={s.formItem_errorHint}>
-                  <span>必填</span>
+                  <span>{errors['sign'] ? errors['sign'][0] : ' '}</span>
                 </div>
               </label>
             </div>

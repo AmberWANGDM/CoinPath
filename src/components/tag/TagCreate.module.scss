@@ -41,5 +41,9 @@
     margin-top: 4px;
     color: var(--error-color);
     font-size: 12px;
+    > span {
+      display: block;
+      height: 1em;
+    }
   }
 }
