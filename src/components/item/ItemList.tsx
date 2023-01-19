@@ -37,13 +37,22 @@ export const ItemList = defineComponent({
       e.preventDefault()
       refOverlayVisible.value = false
     }
+
+    const onSelect = (value: string) => {
+      if (value === '自定义时间') {
+        refOverlayVisible.value = true
+      }
+    }
+
     return () => (
       <MainLayout>{
         {
           title: () => 'CoinPath',
           icon: () => <Icon name="menu" />,
           default: () => <>
-            <Tabs v-model:selected={refSelected.value} classPrefix={'customTabs'}>
+            <Tabs v-model:selected={refSelected.value}
+              onUpdate:selected={onSelect}
+              classPrefix={'customTabs'}>
               <Tab name='本月'>
                 <ItemSummary startDate={timeList[0].start.format()} endDate={timeList[0].end.format()} />
               </Tab>
