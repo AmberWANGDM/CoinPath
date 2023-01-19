@@ -1,7 +1,8 @@
 import { defineComponent, ref } from 'vue';
 import { Icon } from '../../shared/Icon/Icon';
 import s from './InputPad.module.scss';
-import { DatePicker, Popup } from 'vant';
+import { Time } from '../../shared/time';
+import { DatetimePicker, Popup } from 'vant';
 export const InputPad = defineComponent({
   setup: (props, context) => {
     // 数字键盘
@@ -75,15 +76,9 @@ export const InputPad = defineComponent({
 
     // 日期
     const now = new Date()
-    const year = now.getFullYear().toString()
-    const month = now.getMonth().toString() + 1
-    const day = now.getDate().toString().padStart(2, '0')
-
-    const refDate = ref<string[]>([year, month, day])
+    const refDate = ref(now)
     const refDatePickerVisible = ref(false)
     const showDatePicker = () => { refDatePickerVisible.value = true }
-    const hideDatePicker = () => { refDatePickerVisible.value = false }
-    const setDate = ({ selectedValues }: any) => { refDate.value = selectedValues; refDatePickerVisible.value = false }
 
     return () => (
       <>
@@ -92,10 +87,12 @@ export const InputPad = defineComponent({
             <span class={s.date}>
               <Icon name="date" class={s.icon} />
               <span>
-                <span onClick={showDatePicker}>{refDate.value[0] + '年' + refDate.value[1] + '月' + refDate.value[2]
-                  + '日'}</span>
-                <Popup v-model:show={refDatePickerVisible.value} position='bottom' >
-                  <DatePicker modelValue={refDate.value} title="选择日期" onCancel={hideDatePicker} onConfirm={setDate} />
+                <span onClick={showDatePicker}>{new Time(refDate.value).format()}</span>
+                <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
+                  <DatetimePicker title='选择日期' type="date" modelValue={refDate.value}
+                    onConfirm={(value: Date) => { refDate.value = value; refDatePickerVisible.value = false }}
+                    onCancel={() => { refDatePickerVisible.value = false }}
+                  />
                 </Popup>
               </span>
             </span>
