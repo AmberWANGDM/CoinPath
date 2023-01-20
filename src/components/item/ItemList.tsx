@@ -3,6 +3,7 @@ import { defineComponent, reactive, ref, watchEffect } from 'vue';
 import { MainLayout } from '../../layouts/MainLayout';
 import { Form, FormItem } from '../../shared/Form/Form';
 import { Icon } from '../../shared/Icon/Icon';
+import { OverlayIcon } from '../../shared/Overlay/Overlay';
 import { Tab, Tabs } from '../../shared/Tabs/Tabs';
 import { Time } from '../../shared/time';
 import s from './ItemList.module.scss';
@@ -48,7 +49,7 @@ export const ItemList = defineComponent({
       <MainLayout>{
         {
           title: () => 'CoinPath',
-          icon: () => <Icon name="menu" />,
+          icon: () => <OverlayIcon />,
           default: () => <>
             <Tabs v-model:selected={refSelected.value}
               onUpdate:selected={onSelect}
