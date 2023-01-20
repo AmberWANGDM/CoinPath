@@ -6,12 +6,14 @@
   color: var(--button-text);
   font-size: var(--button-font-size);
   border-radius: var(--button-radius);
+  width: 100%;
   &.primary {
   }
   &.secondary {
   }
   &.danger {
     background-color: var(--button-bg-danger);
+    border: 1px solid var(--button-bg-danger);
     color: white;
   }
 }
