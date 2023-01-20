@@ -1,5 +1,6 @@
-import { DatetimePicker, Popover, Popup } from 'vant';
+import { DatetimePicker, Popup } from 'vant';
 import { computed, defineComponent, PropType, ref } from 'vue';
+import { Button } from '../Button/Button';
 import { EmojiSelect } from '../EmojiSelect/EmojiSelect';
 import { Time } from '../time';
 import s from './Form.module.scss';
@@ -23,14 +24,15 @@ export const FormItem = defineComponent({
       type: String as PropType<string>
     },
     type: {
-      type: String as PropType<'text' | 'emojiSelect' | 'date'>
+      type: String as PropType<'text' | 'emojiSelect' | 'date' | 'validationCode'>
     },
     error: {
       type: String
     },
     modelValue: {
       type: [String, Number]
-    }
+    },
+    placeholder: String,
   },
   emits: ['update:modelValue'],
   setup: (props, context) => {
@@ -40,6 +42,7 @@ export const FormItem = defineComponent({
       switch (props.type) {
         case 'text':
           return <input class={[s.formItem, s.input]} value={props.modelValue}
+            placeholder={props.placeholder}
             onInput={(e: any) => context.emit('update:modelValue', e.target.value)} />
         case 'emojiSelect':
           return <EmojiSelect modelValue={props.modelValue?.toString()} class={[s.formItem, s.emojiList]} onUpdateModelValue={(emoji) => context.emit('update:modelValue', emoji)} />
@@ -49,6 +52,7 @@ export const FormItem = defineComponent({
               readonly={true}
               value={props.modelValue}
               class={[s.formItem, s.input]}
+              placeholder={props.placeholder}
               onClick={() => { refDatePickerVisible.value = true }} />
             <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
               <DatetimePicker
@@ -60,7 +64,15 @@ export const FormItem = defineComponent({
               />
             </Popup>
           </>
-
+        case 'validationCode':
+          return <>
+            <input class={[s.formItem, s.input, s.validationCodeInput]}
+              placeholder={props.placeholder} value={props.modelValue}
+              onInput={(e: any) => context.emit('update:modelValue', e.target.value)} />
+            <Button class={[s.formItem, s.button, s.validationCodeButton]}>
+              发送验证码
+            </Button>
+          </>
         case undefined:
           return context.slots.default?.()
       }
@@ -72,9 +84,9 @@ export const FormItem = defineComponent({
           <div class={s.formItem_value}>
             {content.value}
           </div>
-          {props.error &&
+          {
             <div class={s.formItem_errorHint}>
-              <span>{props.error}</span>
+              <span>{props.error ?? ' '}</span>
             </div>
           }
         </label>
