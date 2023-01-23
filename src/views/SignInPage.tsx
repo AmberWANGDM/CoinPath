@@ -6,10 +6,11 @@ import { Icon } from '../shared/Icon/Icon';
 import { validate } from '../shared/validate';
 import s from './SignInPage.module.scss';
 import axios from 'axios';
+import { http } from '../shared/Http';
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
-      email: '',
+      email: 'wangdanmeng98@163.com',
       code: ''
     })
     const errors = reactive({
@@ -29,7 +30,7 @@ export const SignInPage = defineComponent({
       ]))
     }
     const onClickSendValidationCode = async () => {
-      const response = await axios.post('/api/v1/validation_codes', { email: formData.email })
+      const response = await http.post('/validation_codes', { email: formData.email })
         .catch(() => {
           // 失败
         })
@@ -52,7 +53,7 @@ export const SignInPage = defineComponent({
                   v-model={formData.email} error={errors.email?.[0]} />
                 <FormItem label="验证码" type='validationCode' placeholder='请输入验证码'
                   v-model={formData.code} error={errors.code?.[0]}
-                  countFrom={20}
+                  countFrom={1}
                   ref={refValidationCode}
                   onClick={onClickSendValidationCode}
                 />
