@@ -52,8 +52,7 @@ export const FormItem = defineComponent({
     const timer = ref<number>()
     const count = ref<number>(props.countFrom)
     const isCounting = computed(() => !!timer.value)
-    const onClickSendValidationCode = () => {
-      props.onClick?.()
+    const startCount = () => {
       timer.value = setInterval(() => {
         count.value--
         if (count.value === 0) {
@@ -62,6 +61,9 @@ export const FormItem = defineComponent({
         }
       }, 1000)
     }
+    // 父组件调用子组件的方法
+    context.expose({ startCount })
+
     const content = computed(() => {
       switch (props.type) {
         case 'text':
@@ -96,7 +98,7 @@ export const FormItem = defineComponent({
             <Button
               class={[s.formItem, s.button, s.validationCodeButton]}
               disabled={isCounting.value}
-              onClick={onClickSendValidationCode}
+              onClick={props.onClick}
             >
               {isCounting.value ? `${count.value}秒后重新发送` : '发送验证码'}
             </Button>
