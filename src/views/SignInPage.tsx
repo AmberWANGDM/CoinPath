@@ -5,6 +5,7 @@ import { Form, FormItem } from '../shared/Form/Form';
 import { Icon } from '../shared/Icon/Icon';
 import { validate } from '../shared/validate';
 import s from './SignInPage.module.scss';
+import axios from 'axios';
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
@@ -25,9 +26,8 @@ export const SignInPage = defineComponent({
         { key: 'code', type: 'required', message: '请输入验证码' }
       ]))
     }
-    const onClickSendValidationCode = () => {
-      console.log('send validation code')
-    }
+
+
     return () => (
       <MainLayout>{
         {
@@ -43,10 +43,11 @@ export const SignInPage = defineComponent({
                   v-model={formData.email} error={errors.email?.[0]} />
                 <FormItem label="验证码" type='validationCode' placeholder='请输入验证码'
                   v-model={formData.code} error={errors.code?.[0]}
-                  onClick={onClickSendValidationCode}
+                  countFrom={20}
+                // onClick={onClickSendValidationCode}
                 />
                 <FormItem style={{ paddingTop: '16px' }}>
-                  <Button>登录</Button>
+                  <Button type='submit'>登录</Button>
                 </FormItem>
               </Form>
             </div>

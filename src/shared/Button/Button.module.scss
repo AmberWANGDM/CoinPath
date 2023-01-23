@@ -7,6 +7,10 @@
   font-size: var(--button-font-size);
   border-radius: var(--button-radius);
   width: 100%;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
   &.primary {
   }
   &.secondary {
