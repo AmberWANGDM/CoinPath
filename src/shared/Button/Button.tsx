@@ -17,13 +17,24 @@ export const Button = defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    // 用户可以指定是否关闭自动沉默，默认开启
+    autoSelfDisabled: {
+      type: Boolean,
+      default: false
     }
   },
   setup: (props, context) => {
     // 自我沉默
     const selfdisabled = ref(false)
     const _disabled = computed(() => {
-      if (selfdisabled.value) return true
+      // 如果自动沉默关闭，那么就不自动沉默
+      if (props.autoSelfDisabled === false) {
+        return props.disabled
+      }
+      if (selfdisabled.value) {
+        return true
+      }
       return props.disabled
     })
     const onClick = () => {
@@ -31,7 +42,7 @@ export const Button = defineComponent({
       selfdisabled.value = true
       setTimeout(() => {
         selfdisabled.value = false
-      }, 500)
+      }, 5000)
     }
     return () => (
       <button disabled={_disabled.value}

@@ -6,6 +6,7 @@ import { Icon } from '../shared/Icon/Icon';
 import { validate } from '../shared/validate';
 import s from './SignInPage.module.scss';
 import { http } from '../shared/Http';
+import { useBool } from '../hooks/useBool';
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
@@ -17,8 +18,7 @@ export const SignInPage = defineComponent({
       code: []
     })
     const refValidationCode = ref<any>()
-    const refValidationCodeDisabled = ref(false)
-
+    const { ref: refDisabled, on: disable, off: enable } = useBool(false)
     const onSubmit = (e: Event) => {
       e.preventDefault();
       Object.assign(errors, { email: [], code: [] })
@@ -33,12 +33,10 @@ export const SignInPage = defineComponent({
       Object.assign(errors, error.response.data.errors)
     }
     const onClickSendValidationCode = async () => {
-      refValidationCodeDisabled.value = true
+      enable()
       const response = await http.post('/validation_codes', { email: formData.email })
         .catch(onError)
-        .finally(() => {
-          refValidationCodeDisabled.value = false
-        })
+        .finally(disable)
       // 请求验证码成功后，调用子组件的函数，开始倒计时
       refValidationCode.value?.startCount()
     }
@@ -61,7 +59,7 @@ export const SignInPage = defineComponent({
                   countFrom={1}
                   ref={refValidationCode}
                   onClick={onClickSendValidationCode}
-                  disabled={refValidationCodeDisabled.value}
+                  disabled={refDisabled.value}
                 />
                 <FormItem style={{ paddingTop: '16px' }}>
                   <Button type='submit'>登录</Button>
