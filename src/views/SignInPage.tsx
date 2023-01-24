@@ -29,11 +29,12 @@ export const SignInPage = defineComponent({
         { key: 'code', type: 'required', message: '请输入验证码' }
       ]))
     }
+    const onError = (error: any) => {
+      Object.assign(errors, error.response.data.errors)
+    }
     const onClickSendValidationCode = async () => {
       const response = await http.post('/validation_codes', { email: formData.email })
-        .catch(() => {
-          // 失败
-        })
+        .catch(onError)
       // 请求验证码成功后，调用子组件的函数，开始倒计时
       refValidationCode.value?.startCount()
     }

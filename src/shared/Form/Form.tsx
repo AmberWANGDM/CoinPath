@@ -2,6 +2,7 @@ import { DatetimePicker, Popup } from 'vant';
 import { computed, defineComponent, PropType, ref } from 'vue';
 import { Button } from '../Button/Button';
 import { EmojiSelect } from '../EmojiSelect/EmojiSelect';
+import { getFriendlyError } from '../getFriendlyError';
 import { Time } from '../time';
 import s from './Form.module.scss';
 export const Form = defineComponent({
@@ -124,7 +125,7 @@ export const FormItem = defineComponent({
           </div>
           {
             <div class={s.formItem_errorHint}>
-              <span>{props.error ?? ' '}</span>
+              <span>{props.error ? getFriendlyError(props.error) : ' '}</span>
             </div>
           }
         </label>

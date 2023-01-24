@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 type JSONValue = string | number | null | boolean | JSONValue[] | { [key: string]: JSONValue }
 
 /**
@@ -46,4 +46,16 @@ export class Http {
 
 export const http = new Http('api/v1')
 
-http.instance.interceptors.response.use()
+http.instance.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  // error不一定是请求错误，需要判断error.response是否存在
+  if (error.response) {
+    const axiosError = error as AxiosError
+    if (axiosError.response?.status === 429) {
+      alert('请求过于频繁，请稍后再试')
+    }
+  }
+  // return Promise.reject(error) 等价于 
+  throw error
+})
