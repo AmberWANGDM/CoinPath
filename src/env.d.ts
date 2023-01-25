@@ -6,3 +6,14 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+type JSONValue =
+  | string
+  | number
+  | null
+  | boolean
+  | JSONValue[]
+  | { [key: string]: JSONValue }
+
+// `=>`用来表示函数的定义 左边是输入类型，右边是输出类型
+type Mock = (config: AxiosRequestConfig) => [number, any]
