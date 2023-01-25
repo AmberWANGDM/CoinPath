@@ -15,5 +15,10 @@ type JSONValue =
   | JSONValue[]
   | { [key: string]: JSONValue }
 
-// `=>`用来表示函数的定义 左边是输入类型，右边是输出类型
-type Mock = (config: AxiosRequestConfig) => [number, any]
+type Tag = {
+  id: number
+  user_id: number
+  name: string
+  sign: string
+  kind: expenses | income
+}
