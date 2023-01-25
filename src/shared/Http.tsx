@@ -46,6 +46,19 @@ export class Http {
 
 export const http = new Http('api/v1')
 
+// 请求拦截器
+http.instance.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem('jwt')
+  if (jwt) {
+    // 类型断言 !.
+    config.headers!.Authorization = `Bearer ${jwt}`
+  }
+  return config
+}, (error) => {
+  return Promise.reject(error)
+})
+
+// 响应拦截器
 http.instance.interceptors.response.use((response) => {
   return response
 }, (error) => {

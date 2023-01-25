@@ -8,6 +8,7 @@ import s from './SignInPage.module.scss';
 import { http } from '../shared/Http';
 import { useBool } from '../hooks/useBool';
 import { useRoute, useRouter } from 'vue-router';
+import { refreshMe } from '../shared/me';
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
@@ -37,6 +38,8 @@ export const SignInPage = defineComponent({
         // 1 const returnTo = localStorage.getItem('returnTo')
         // 2 在任何跳转到登录界面的地方使用 query 参数 return_to 来指定登录成功后跳转的页面 router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()
+        // 更新用户信息
+        refreshMe()
         router.push(returnTo || '/')
       }
     }
@@ -67,7 +70,7 @@ export const SignInPage = defineComponent({
                   v-model={formData.email} error={errors.email?.[0]} />
                 <FormItem label="验证码" type='validationCode' placeholder='请输入验证码'
                   v-model={formData.code} error={errors.code?.[0]}
-                  countFrom={1}
+                  countFrom={60}
                   ref={refValidationCode}
                   onClick={onClickSendValidationCode}
                   disabled={refDisabled.value}
