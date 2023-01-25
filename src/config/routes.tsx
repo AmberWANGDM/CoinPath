@@ -19,7 +19,11 @@ import { StatisticsPage } from "../views/StatisticsPage";
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
   {
-    path: '/welcome', component: Welcome, children: [
+    path: '/welcome', component: Welcome,
+    beforeEnter: (to, from, next) => {
+      localStorage.getItem('skipFeatures') ? next('/start') : next()
+    },
+    children: [
       { path: '', redirect: '/welcome/1' },
       { path: '1', name: "Welcome1", components: { main: First, footer: FirstActions }, },
       { path: '2', name: "Welcome2", components: { main: Second, footer: SecondActions }, },
