@@ -33,10 +33,8 @@ export const SignInPage = defineComponent({
         { key: 'code', type: 'required', message: '请输入验证码' }
       ]))
       if (!hasError(errors)) {
-        const response = await http.post<{ jwt: string }>('/session', formData, {
-          params: { _mock: 'session' }
-        }).catch(onError)
-        console.log(response);
+        const response = await http.post<{ jwt: string }>('/session', formData)
+          .catch(onError)
         localStorage.setItem('jwt', response.data.jwt)
         // 1 const returnTo = localStorage.getItem('returnTo')
         // 2 在任何跳转到登录界面的地方使用 query 参数 return_to 来指定登录成功后跳转的页面 router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
