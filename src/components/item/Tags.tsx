@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useTags } from '../../hooks/useTags'
 import { Button } from '../../shared/Button/Button'
@@ -22,12 +22,35 @@ export const Tags = defineComponent({
         page: page + 1,
       })
     })
+    const timer = ref<number>()
+    const currentTag = ref<HTMLDivElement>()
+    const longPress = () => {
+      console.log('长按');
+    }
     const onSelect = (tag: Tag) => {
       context.emit('update:selected', tag.id)
     }
+    const onTouchStart = (e: TouchEvent) => {
+      // 记录当前所在标签并计时
+      currentTag.value = e.currentTarget as HTMLDivElement
+      timer.value = setTimeout(() => {
+        longPress()
+      }, 500);
+    }
+    const onTouchEnd = () => {
+      clearTimeout(timer.value)
+    }
+    const onTouchMove = (e: TouchEvent) => {
+      const pointedElement = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY)
+      // 移出当前tag需要清空timer
+      if (currentTag.value !== pointedElement
+        && currentTag.value?.contains(pointedElement) === false) {
+        clearTimeout(timer.value)
+      }
+    }
     return () => (
       <>
-        <div class={s.tags_wrapper}>
+        <div class={s.tags_wrapper} onTouchmove={onTouchMove}>
           <RouterLink to={`/tags/create?kind=${props.kind}`} class={s.tag}>
             <div class={s.sign}>
               <Icon name="add" class={s.createTag} />
@@ -36,8 +59,10 @@ export const Tags = defineComponent({
           </RouterLink>
           {tags.value.map((tag) => (
             <div
-              onClick={() => onSelect(tag)}
               class={[s.tag, props.selected === tag.id ? s.selected : '']}
+              onClick={() => onSelect(tag)}
+              onTouchstart={onTouchStart}
+              onTouchend={onTouchEnd}
             >
               <div class={s.sign}>{tag.sign}</div>
               <div class={s.name}>{tag.name}</div>
