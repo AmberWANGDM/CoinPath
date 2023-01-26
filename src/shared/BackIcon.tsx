@@ -1,11 +1,11 @@
-import { defineComponent, PropType } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { Icon } from './Icon/Icon';
+import { defineComponent, PropType } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { Icon } from './Icon/Icon'
 export const BackIcon = defineComponent({
   props: {
     name: {
-      type: String as PropType<string>
-    }
+      type: String as PropType<string>,
+    },
   },
   setup: (props, context) => {
     const route = useRoute()
@@ -18,8 +18,6 @@ export const BackIcon = defineComponent({
         router.back()
       }
     }
-    return () => (
-      <Icon name='back' onClick={onClick} />
-    )
-  }
+    return () => <Icon name="back" onClick={onClick} />
+  },
 })
