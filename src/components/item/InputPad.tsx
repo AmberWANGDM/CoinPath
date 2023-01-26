@@ -4,6 +4,11 @@ import s from './InputPad.module.scss';
 import { Time } from '../../shared/time';
 import { DatetimePicker, Popup } from 'vant';
 export const InputPad = defineComponent({
+  props: {
+    happenAt: String,
+    amount: Number
+  },
+  emit: ['update:happenAt', 'update:amount'],
   setup: (props, context) => {
     // 数字键盘
     const buttons = [
@@ -20,10 +25,14 @@ export const InputPad = defineComponent({
       { text: '.', onClick: () => { appendText('.') } },
       { text: 'Del', onClick: () => { delText() } },
       { text: '清空', onClick: () => { clearText() } },
-      { text: '提交', onClick: () => { } }
+      {
+        text: '提交', onClick: () => {
+          context.emit('update:amount', parseFloat(refAmount.value))
+        }
+      }
     ]
 
-    const refAmount = ref('0')
+    const refAmount = ref(props.amount ? props.amount.toString() : '0')
 
     // 输入数字
     const appendText = (n: string | number) => {
@@ -76,10 +85,13 @@ export const InputPad = defineComponent({
 
     // 日期
     const now = new Date()
-    const refDate = ref(now)
     const refDatePickerVisible = ref(false)
     const showDatePicker = () => { refDatePickerVisible.value = true }
-
+    const hideDatePicker = () => { refDatePickerVisible.value = false }
+    const setDate = (date: Date) => {
+      context.emit('update:happenAt', date.toISOString())
+      hideDatePicker()
+    }
     return () => (
       <>
         <div class={s.dateAndAmount_wrapper}>
@@ -87,11 +99,12 @@ export const InputPad = defineComponent({
             <span class={s.date}>
               <Icon name="date" class={s.icon} />
               <span>
-                <span onClick={showDatePicker}>{new Time(refDate.value).format()}</span>
+                <span onClick={showDatePicker}>{new Time(props.happenAt).format()}</span>
                 <Popup position='bottom' v-model:show={refDatePickerVisible.value}>
-                  <DatetimePicker title='选择日期' type="date" modelValue={refDate.value}
-                    onConfirm={(value: Date) => { refDate.value = value; refDatePickerVisible.value = false }}
-                    onCancel={() => { refDatePickerVisible.value = false }}
+                  <DatetimePicker title='选择日期' type="date"
+                    modelValue={new Date(props.happenAt as string)}
+                    onConfirm={(date: Date) => setDate(date)}
+                    onCancel={hideDatePicker}
                   />
                 </Popup>
               </span>

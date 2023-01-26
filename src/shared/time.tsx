@@ -11,9 +11,15 @@
 */
 export class Time {
   private date: Date
-  // new 关键字 会自动执行 constructor 初始化 date，默认值为当前时间
-  constructor(date = new Date()) {
-    this.date = date
+  // 初始化 date，默认值为当前时间
+  constructor(date?: string | Date) {
+    if (date === undefined) {
+      this.date = new Date()
+    } else if (typeof date === 'string') {
+      this.date = new Date(date)
+    } else {
+      this.date = date
+    }
   }
   // 方法挂载在原型上
   // 格式日期
