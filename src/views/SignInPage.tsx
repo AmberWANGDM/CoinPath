@@ -35,7 +35,7 @@ export const SignInPage = defineComponent({
       if (!hasError(errors)) {
         const response = await http.post<{ jwt: string }>('/session', formData)
           .catch(onError)
-        localStorage.setItem('jwt', response.data.jwt)
+        localStorage.setItem('jwt', response!.data.jwt)
         // 1 const returnTo = localStorage.getItem('returnTo')
         // 2 在任何跳转到登录界面的地方使用 query 参数 return_to 来指定登录成功后跳转的页面 router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()

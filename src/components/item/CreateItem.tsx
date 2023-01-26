@@ -3,8 +3,8 @@ import { Toast } from 'vant';
 import { defineComponent, PropType, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { MainLayout } from '../../layouts/MainLayout';
+import { BackIcon } from '../../shared/BackIcon';
 import { http } from '../../shared/Http';
-import { Icon } from '../../shared/Icon/Icon';
 import { Tab, Tabs } from '../../shared/Tabs/Tabs';
 import s from './CreateItem.module.scss';
 import { InputPad } from './InputPad';
@@ -38,7 +38,7 @@ export const CreateItem = defineComponent({
     return () => (
       <MainLayout>{{
         title: () => '记一笔',
-        icon: () => <Icon name="back" class={s.navIcon} />,
+        icon: () => <BackIcon />,
         default: () => <>
           <div class={s.wrapper}>
             <Tabs v-model:selected={formData.kind} class={s.tabs}>
