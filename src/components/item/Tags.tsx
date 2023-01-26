@@ -1,5 +1,5 @@
 import { defineComponent, PropType, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { routerKey, RouterLink, useRouter } from 'vue-router'
 import { useTags } from '../../hooks/useTags'
 import { Button } from '../../shared/Button/Button'
 import { http } from '../../shared/Http'
@@ -15,6 +15,7 @@ export const Tags = defineComponent({
   },
   emit: ['update:selected'],
   setup: (props, context) => {
+    const router = useRouter()
     const { tags, hasMore, fetchTags } = useTags((page) => {
       return http.get<Resources<Tag>>('/tags', {
         kind: props.kind,
@@ -24,17 +25,17 @@ export const Tags = defineComponent({
     })
     const timer = ref<number>()
     const currentTag = ref<HTMLDivElement>()
-    const longPress = () => {
-      console.log('长按');
+    const longPress = (tagId: Tag['id']) => {
+      router.push(`/tags/${tagId}/edit?kind=${props.kind}&return_to=${router.currentRoute.value.fullPath}`)
     }
     const onSelect = (tag: Tag) => {
       context.emit('update:selected', tag.id)
     }
-    const onTouchStart = (e: TouchEvent) => {
+    const onTouchStart = (e: TouchEvent, tag: Tag) => {
       // 记录当前所在标签并计时
       currentTag.value = e.currentTarget as HTMLDivElement
       timer.value = setTimeout(() => {
-        longPress()
+        longPress(tag.id)
       }, 500);
     }
     const onTouchEnd = () => {
@@ -61,7 +62,7 @@ export const Tags = defineComponent({
             <div
               class={[s.tag, props.selected === tag.id ? s.selected : '']}
               onClick={() => onSelect(tag)}
-              onTouchstart={onTouchStart}
+              onTouchstart={(e) => onTouchStart(e, tag)}
               onTouchend={onTouchEnd}
             >
               <div class={s.sign}>{tag.sign}</div>
