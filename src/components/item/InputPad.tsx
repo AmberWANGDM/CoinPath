@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { Icon } from '../../shared/Icon/Icon';
 import s from './InputPad.module.scss';
 import { Time } from '../../shared/time';
@@ -6,7 +6,10 @@ import { DatetimePicker, Popup } from 'vant';
 export const InputPad = defineComponent({
   props: {
     happenAt: String,
-    amount: Number
+    amount: Number,
+    onSubmit: {
+      type: Function as PropType<() => void>
+    }
   },
   emit: ['update:happenAt', 'update:amount'],
   setup: (props, context) => {
@@ -28,6 +31,7 @@ export const InputPad = defineComponent({
       {
         text: '提交', onClick: () => {
           context.emit('update:amount', parseFloat(refAmount.value))
+          props.onSubmit?.()
         }
       }
     ]

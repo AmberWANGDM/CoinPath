@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { mockSession, mockTagIndex } from "../mock/mock";
+import { mockItemCreate, mockSession, mockTagIndex } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -38,6 +38,9 @@ const mock = (response: AxiosResponse) => {
     && location.hostname !== '127.0.0.1'
     && location.hostname !== '192.168.3.57') { return false }
   switch (response.config?.params?._mock) {
+    case 'itemCreate':
+      [response.status, response.data] = mockItemCreate(response.config)
+      return true
     case 'tagIndex':
       [response.status, response.data] = mockTagIndex(response.config)
       return true
@@ -65,12 +68,17 @@ http.instance.interceptors.request.use((config) => {
 http.instance.interceptors.response.use((response) => {
   // 尝试mock，对response进行篡改
   mock(response)
-  return response
-}, (error) => {
-  if (mock(error.response)) {
-    return error.response
+  if (response.status >= 400) {
+    throw response
   } else {
+    return response
+  }
+}, (error) => {
+  mock(error.response)
+  if (error.response.status >= 400) {
     throw error
+  } else {
+    return error.response
   }
 })
 // 响应拦截器-公共错误处理
