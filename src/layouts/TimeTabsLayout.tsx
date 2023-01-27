@@ -45,7 +45,11 @@ export const TimeTabsLayout = defineComponent({
       start?: string,
       end?: string
     }>({})
-
+    // 临时自定义时间
+    const tempCustomTime = reactive({
+      start: new Time().format(),
+      end: new Time().format()
+    })
     const refOverlayVisible = ref(false)
 
     watchEffect(() => {
@@ -57,6 +61,7 @@ export const TimeTabsLayout = defineComponent({
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault()
       refOverlayVisible.value = false
+      Object.assign(customTime, tempCustomTime)
     }
 
     const onSelect = (value: string) => {
@@ -96,7 +101,10 @@ export const TimeTabsLayout = defineComponent({
                   />
                 </Tab>
                 <Tab name="自定义时间">
-                  <props.component />
+                  <props.component
+                    startDate={customTime.start}
+                    endDate={customTime.end}
+                  />
                 </Tab>
               </Tabs>
               <Overlay show={refOverlayVisible.value} class={s.overlay}>
@@ -107,12 +115,14 @@ export const TimeTabsLayout = defineComponent({
                       <FormItem
                         label="开始时间"
                         type="date"
-                        v-model={customTime.start}
+                        placeholder='请选择开始时间'
+                        v-model={tempCustomTime.start}
                       />
                       <FormItem
                         label="结束时间"
                         type="date"
-                        v-model={customTime.end}
+                        placeholder='请选择结束时间'
+                        v-model={tempCustomTime.end}
                       />
                       <FormItem>
                         <div class={s.actions}>

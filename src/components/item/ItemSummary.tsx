@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { Button } from '../../shared/Button/Button';
 import { Datetime } from '../../shared/DateTime';
 import { FloatButton } from '../../shared/FloatButton/FloatButton';
@@ -20,6 +20,7 @@ export const ItemSummary = defineComponent({
     const page = ref<number>(0)
     const items = ref<Item[]>([])
     const hasMore = ref<boolean>(false)
+    // 记账记录
     const fetchItems = async () => {
       if (!props.startDate || !props.endDate) return
       const response = await http.get<Resources<Item>>('/items', {
@@ -38,7 +39,7 @@ export const ItemSummary = defineComponent({
     const itemsBalance = reactive({
       expenses: 0, income: 0, balance: 0
     })
-    onMounted(async () => {
+    const fetchItemBalance = async () => {
       if (!props.startDate || !props.endDate) return
       const response = await http.get('/items/balance', {
         happen_after: props.startDate,
@@ -47,6 +48,15 @@ export const ItemSummary = defineComponent({
         _mock: 'itemIndexBalance'
       })
       Object.assign(itemsBalance, response.data)
+    }
+    onMounted(fetchItemBalance)
+    // 监听自定义时间
+    watch(() => [props.startDate, props.endDate], () => {
+      hasMore.value = false
+      page.value = 0
+      items.value = []
+      fetchItems()
+      fetchItemBalance()
     })
     return () => (
       <div class={s.wrapper}>
