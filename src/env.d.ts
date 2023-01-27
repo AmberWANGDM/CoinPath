@@ -49,3 +49,8 @@ type Item = {
 type ResourceError = {
   errors: Record<string, string[]>
 }
+
+type User = {
+  id: number,
+  email: string
+}
