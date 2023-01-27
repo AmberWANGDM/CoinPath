@@ -101,12 +101,20 @@ export const mockItemIndex: Mock = (config) => {
   const { page, kind } = config.params
   const per_page = 25
   const count = 26
+  const createTag = (attrs?: any) => ({
+    id: createId(),
+    name: faker.lorem.word(),
+    sign: faker.internet.emoji(),
+    kind: 'expenses',
+    ...attrs,
+  })
   const createItem = (n = 1, attrs?: any) => {
     return Array.from({ length: n }).map(() => ({
       id: createId(),
       user_id: createId(),
       amount: Math.floor(Math.random() * 10000),
       tag_ids: [createId()],
+      tags: [createTag()],
       happen_at: faker.date.past().toISOString(),
       kind: kind,
     }))
