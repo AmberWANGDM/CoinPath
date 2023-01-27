@@ -19,7 +19,7 @@ export const CreateItem = defineComponent({
     const router = useRouter()
     const formData = reactive({
       kind: '支出',
-      tags_id: [],
+      tag_ids: [],
       amount: 0,
       happen_at: new Date().toISOString(),
     })
@@ -49,13 +49,13 @@ export const CreateItem = defineComponent({
                   <Tab name="支出">
                     <Tags
                       kind="expenses"
-                      v-model:selected={formData.tags_id[0]}
+                      v-model:selected={formData.tag_ids[0]}
                     />
                   </Tab>
                   <Tab name="收入">
                     <Tags
                       kind="income"
-                      v-model:selected={formData.tags_id[0]}
+                      v-model:selected={formData.tag_ids[0]}
                     />
                   </Tab>
                 </Tabs>

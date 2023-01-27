@@ -30,13 +30,13 @@ export const InputPad = defineComponent({
       { text: '清空', onClick: () => { clearText() } },
       {
         text: '提交', onClick: () => {
-          context.emit('update:amount', parseFloat(refAmount.value))
+          context.emit('update:amount', parseFloat(refAmount.value) * 100)
           props.onSubmit?.()
         }
       }
     ]
 
-    const refAmount = ref(props.amount ? props.amount.toString() : '0')
+    const refAmount = ref(props.amount ? (props.amount / 100).toString() : '0')
 
     // 输入数字
     const appendText = (n: string | number) => {
