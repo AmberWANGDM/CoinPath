@@ -1,6 +1,7 @@
 import { Overlay } from 'vant';
 import { defineComponent, PropType, reactive, ref, watchEffect } from 'vue';
 import { Form, FormItem } from '../shared/Form/Form';
+import { http } from '../shared/Http';
 import { OverlayIcon } from '../shared/Overlay/Overlay';
 import { Tab, Tabs } from '../shared/Tabs/Tabs';
 import { Time } from '../shared/time';
