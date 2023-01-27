@@ -11,11 +11,11 @@ const demo = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      required: true,
+      required: false,
     },
     endDate: {
       type: String as PropType<string>,
-      required: true,
+      required: false,
     },
   },
 })
@@ -41,10 +41,10 @@ export const TimeTabsLayout = defineComponent({
       { start: time.firstDayOfYear(), end: time.lastDayOfYear() },
     ]
     // 自定义时间
-    const customTime = reactive({
-      start: new Time().format(),
-      end: new Time().format(),
-    })
+    const customTime = reactive<{
+      start?: string,
+      end?: string
+    }>({})
 
     const refOverlayVisible = ref(false)
 
@@ -96,10 +96,7 @@ export const TimeTabsLayout = defineComponent({
                   />
                 </Tab>
                 <Tab name="自定义时间">
-                  <props.component
-                    startDate={customTime.start}
-                    endDate={customTime.end}
-                  />
+                  <props.component />
                 </Tab>
               </Tabs>
               <Overlay show={refOverlayVisible.value} class={s.overlay}>
