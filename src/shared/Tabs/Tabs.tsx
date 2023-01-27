@@ -1,5 +1,5 @@
-import { defineComponent, PropType } from 'vue'
-import s from './Tabs.module.scss'
+import { defineComponent, PropType } from 'vue';
+import s from './Tabs.module.scss';
 
 export const Tabs = defineComponent({
   props: {
@@ -10,58 +10,62 @@ export const Tabs = defineComponent({
     classPrefix: {
       type: String as PropType<string>,
     },
+    reRenderOnSelect: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+    }
   },
   emits: ['update:selected'],
   setup: (props, context) => {
     return () => {
       const tabs = context.slots.default?.()
       if (!tabs) return () => null
-      tabs.map((item) => {
+      tabs.map(item => {
         if (item.type !== Tab) {
           throw new Error('Tabs 的子组件必须是 Tab')
         }
       })
       const cp = props.classPrefix
-      return (
-        <div class={[s.tabs, cp + '_tabs']}>
-          <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
-            {tabs.map((item) => {
+      return <div class={[s.tabs, cp + '_tabs']}>
+        <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
+          {
+            tabs.map(item => {
               // 获取子组件的 name 属性
-              return (
-                <li
-                  class={[
-                    item.props?.name === props.selected
-                      ? [s.selected, cp + '_selected']
-                      : '',
-                    cp + '_tabs_nav_item',
-                  ]}
-                  onClick={() =>
-                    context.emit('update:selected', item.props?.name)
-                  }
-                >
-                  {item.props?.name}
-                </li>
-              )
-            })}
-          </ol>
+              return <li class={
+                [item.props?.name === props.selected ? [s.selected, cp + '_selected'] : '',
+                cp + '_tabs_nav_item']
+              }
+                onClick={() => context.emit('update:selected', item.props?.name)}>
+                {item.props?.name}
+              </li>
+            }
+            )
+          }</ol>
+        {props.reRenderOnSelect ?
+          <div key={props.selected}>
+            {tabs.find(item => item.props?.name === props.selected)}
+          </div>
+          :
           <div>
             {tabs.map((item) => (
               <div v-show={item.props?.name === props.selected}>{item}</div>
             ))}
           </div>
-        </div>
-      )
+        }
+      </div>
     }
-  },
+  }
 })
 
 export const Tab = defineComponent({
   props: {
     name: {
-      type: String as PropType<string>,
-    },
+      type: String as PropType<string>
+    }
   },
   setup: (props, context) => {
-    return () => <div>{context.slots.default?.()}</div>
-  },
+    return () => (
+      <div>{context.slots.default?.()}</div>
+    )
+  }
 })
