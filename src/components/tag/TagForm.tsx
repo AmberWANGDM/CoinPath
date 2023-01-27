@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Button } from '../../shared/Button/Button'
 import { Form, FormItem } from '../../shared/Form/Form'
@@ -7,6 +7,9 @@ import { onFormError } from '../../shared/onFormError'
 import { hasError, Rules, validate } from '../../shared/validate'
 import s from './Tag.module.scss'
 export const TagForm = defineComponent({
+  props: {
+    id: Number,
+  },
   setup: (props, context) => {
     const route = useRoute()
     const router = useRouter()
@@ -15,18 +18,30 @@ export const TagForm = defineComponent({
     if (!route.query.kind) {
       return () => <div>参数错误</div>
     }
-    const formData = reactive({
+    const formData = reactive<Partial<Tag>>({
+      id: undefined,
       name: '',
       sign: '',
       kind: route.query.kind.toString(),
     })
-
+    onMounted(async () => {
+      if (!props.id) return
+      const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {
+        _mock: 'tagShow',
+      })
+      Object.assign(formData, response.data.resource)
+    })
     const onSubmit = async (e: Event) => {
       e.preventDefault()
       // ts 会提前自动推断 rules 的类型, 需要导出 Rules 类型
       const rules: Rules<typeof formData> = [
         { key: 'name', type: 'required', message: '必填' },
-        { key: 'name', type: 'pattern', regex: /^.{0,4}$/, message: '最多4个字符', },
+        {
+          key: 'name',
+          type: 'pattern',
+          regex: /^.{0,4}$/,
+          message: '最多4个字符',
+        },
         { key: 'sign', type: 'required', message: '请选择符号' },
       ]
       Object.assign(errors, {
@@ -36,18 +51,23 @@ export const TagForm = defineComponent({
       Object.assign(errors, validate(formData, rules))
       // 前端校验通过，发送请求
       if (!hasError(errors)) {
-        const response = await http
-          .post('/tags', formData, {
+        const promise = await formData.id
+          ? http.patch(`/tags/${formData.id}`, formData, {
+            params: { _mock: 'tagEdit' },
+          })
+          : http.post('/tags', formData, {
             params: { _mock: 'tagCreate' },
           })
-          .catch((error) => onFormError(error, (data) => Object.assign(errors, data.errors)))
+        await promise.catch((error) =>
+          onFormError(error, (data) => Object.assign(errors, data.errors))
+        )
         router.back()
       }
     }
     return () => (
       <Form onSubmit={onSubmit}>
         <FormItem
-          label="标签名"
+          label="标签名(最多4个字符)"
           type="text"
           v-model={formData.name}
           error={errors['name']?.[0]}

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { mockItemCreate, mockSession, mockTagIndex } from "../mock/mock";
+import { mockItemCreate, mockSession, mocktagEdit, mockTagIndex, mockTagShow } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -38,6 +38,12 @@ const mock = (response: AxiosResponse) => {
     && location.hostname !== '127.0.0.1'
     && location.hostname !== '192.168.3.57') { return false }
   switch (response.config?.params?._mock) {
+    case 'tagEdit':
+      [response.status, response.data] = mocktagEdit(response.config)
+      return true
+    case 'tagShow':
+      [response.status, response.data] = mockTagShow(response.config)
+      return true
     case 'itemCreate':
       [response.status, response.data] = mockItemCreate(response.config)
       return true

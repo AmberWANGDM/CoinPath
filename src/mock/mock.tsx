@@ -3,6 +3,30 @@ import { faker } from '@faker-js/faker'
 // `=>`用来表示函数的定义 左边是输入类型，右边是输出类型
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
+faker.setLocale('zh_CN');
+
+export const mocktagEdit: Mock = (config) => {
+  const createTag = (attrs?: any) => ({
+    id: createId(),
+    name: faker.lorem.word(),
+    sign: faker.internet.emoji(),
+    kind: 'expenses',
+    ...attrs
+  })
+  return [200, { resource: createTag() }]
+}
+
+export const mockTagShow: Mock = (config) => {
+  const createTag = (attrs?: any) => ({
+    id: createId(),
+    name: faker.lorem.word(),
+    sign: faker.internet.emoji(),
+    kind: 'expenses',
+    ...attrs
+  })
+  return [200, { resource: createTag() }]
+}
+
 export const mockItemCreate: Mock = () => {
   // return [422, {
   //   errors: {
@@ -48,7 +72,7 @@ export const mockTagIndex: Mock = (config) => {
       id: createId(),
       name: faker.lorem.word(),
       sign: faker.internet.emoji(),
-      kind,
+      kind: config.params.kind,
       ...attrs
     }))
   }
