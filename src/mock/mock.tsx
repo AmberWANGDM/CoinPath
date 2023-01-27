@@ -116,7 +116,15 @@ export const mockItemIndex: Mock = (config) => {
     per_page,
     count,
   })
-  const createBody = (n = 1) => ({ resources: createItem(n), pager: createPager(page) })
+  const createBody = (n = 1) => ({
+    resources: createItem(n),
+    pager: createPager(page),
+    summary: {
+      income: 9900,
+      expenses: 9900,
+      balance: 0
+    }
+  })
   if (!page || page === 1) {
     return [200, createBody(25)]
   } else if (page === 2) {
@@ -124,4 +132,13 @@ export const mockItemIndex: Mock = (config) => {
   } else {
     return [200, {}]
   }
+}
+
+
+export const mockItemIndexBalance: Mock = (config) => {
+  return [200, {
+    income: 9900,
+    expenses: 9900,
+    balance: 0
+  }]
 }
