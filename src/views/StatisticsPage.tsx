@@ -10,7 +10,7 @@ export const StatisticsPage = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <TimeTabsLayout reRenderOnSwitchTab={true} component={Charts} />
+      <TimeTabsLayout reRenderOnSwitchTab={true} component={Charts} hideThisYear={true} />
     )
   }
 })

@@ -19,17 +19,13 @@ export const Tabs = defineComponent({
   setup: (props, context) => {
     return () => {
       const tabs = context.slots.default?.()
-      if (!tabs) return () => null
-      tabs.map(item => {
-        if (item.type !== Tab) {
-          throw new Error('Tabs 的子组件必须是 Tab')
-        }
-      })
+      const normalizedTabs = tabs?.filter(item => item.type === Tab)
+      if (!normalizedTabs) return () => null
       const cp = props.classPrefix
       return <div class={[s.tabs, cp + '_tabs']}>
         <ol class={[s.tabs_nav, cp + '_tabs_nav']}>
           {
-            tabs.map(item => {
+            normalizedTabs.map(item => {
               // 获取子组件的 name 属性
               return <li class={
                 [item.props?.name === props.selected ? [s.selected, cp + '_selected'] : '',
@@ -43,11 +39,11 @@ export const Tabs = defineComponent({
           }</ol>
         {props.reRenderOnSelect ?
           <div key={props.selected}>
-            {tabs.find(item => item.props?.name === props.selected)}
+            {normalizedTabs.find(item => item.props?.name === props.selected)}
           </div>
           :
           <div>
-            {tabs.map((item) => (
+            {normalizedTabs.map((item) => (
               <div v-show={item.props?.name === props.selected}>{item}</div>
             ))}
           </div>

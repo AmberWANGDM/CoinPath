@@ -26,7 +26,11 @@ export const TimeTabsLayout = defineComponent({
       type: Object as PropType<typeof demo>,
       required: true,
     },
-    reRenderOnSwitchTab: Boolean
+    reRenderOnSwitchTab: Boolean,
+    hideThisYear: {
+      type: Boolean,
+      default: false
+    }
   },
   setup: (props, context) => {
     const refSelected = ref('本月')
@@ -96,12 +100,14 @@ export const TimeTabsLayout = defineComponent({
                     endDate={timeList[1].end.format()}
                   />
                 </Tab>
-                <Tab name="今年">
-                  <props.component
-                    startDate={timeList[2].start.format()}
-                    endDate={timeList[2].end.format()}
-                  />
-                </Tab>
+                {props.hideThisYear
+                  ? null
+                  : <Tab name="今年">
+                    <props.component
+                      startDate={timeList[2].start.format()}
+                      endDate={timeList[2].end.format()}
+                    />
+                  </Tab>}
                 <Tab name="自定义时间">
                   <props.component
                     startDate={customTime.start}
