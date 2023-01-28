@@ -1,9 +1,8 @@
 import { defineComponent, PropType } from 'vue';
 import s from './ComingSoon.module.scss';
-import comingsoon from '../../assets/img/coming-soon.gif';
 import { MainLayout } from '../../layouts/MainLayout';
 import { OverlayIcon } from '../Overlay/Overlay';
-import { Center } from '../Center/Center';
+import { Icon } from '../Icon/Icon';
 export const ComingSoon = defineComponent({
   props: {
     name: {
@@ -19,7 +18,7 @@ export const ComingSoon = defineComponent({
           default: () => (
             <div class={s.wrapper}>
               <p class={s.text}>Coming soon...</p>
-              <img src={comingsoon} alt="coming soon" />
+              <Icon class={s.icon} name='comingsoon' />
             </div>
           )
         }}

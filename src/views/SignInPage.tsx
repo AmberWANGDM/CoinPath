@@ -71,7 +71,7 @@ export const SignInPage = defineComponent({
       <MainLayout>
         {{
           title: () => '登录',
-          icon: () => <BackIcon />,
+          icon: () => <Icon name='back' onClick={() => router.push('/items')} />,
           default: () => (
             <div class={s.wrapper}>
               <div class={s.app_wrapper}>
