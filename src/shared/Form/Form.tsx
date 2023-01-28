@@ -88,7 +88,7 @@ export const FormItem = defineComponent({
               <DatetimePicker
                 title='请选择日期'
                 type='date'
-                modelValue={refDatePickerValue.value}
+                modelValue={props.modelValue ? new Date(props.modelValue) : new Date()}
                 onConfirm={(date: Date) => { context.emit('update:modelValue', new Time(date).format()); refDatePickerVisible.value = false }}
                 onCancel={() => { refDatePickerVisible.value = false }}
               />
