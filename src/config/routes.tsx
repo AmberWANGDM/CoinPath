@@ -14,7 +14,8 @@ import { TagCreate } from "../components/tag/TagCreate";
 import { TagEdit } from "../components/tag/TagEdit";
 import { SignInPage } from "../views/SignInPage";
 import { StatisticsPage } from "../views/StatisticsPage";
-import { ComingSoon } from "../shared/ComingSoon/ComingSoon";
+import { Notify } from "../components/notify/Notify";
+import { Export } from "../components/export/Export";
 export const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/welcome' },
   {
@@ -48,9 +49,9 @@ export const routes: RouteRecordRaw[] = [
     path: '/statistics', component: StatisticsPage
   },
   {
-    path: '/export', component: ComingSoon
+    path: '/export', component: Export
   },
   {
-    path: '/notify', component: ComingSoon
+    path: '/notify', component: Notify
   },
 ]

@@ -19,6 +19,8 @@ const whiteList: Record<string, 'exact' | 'startsWith'> = {
   '/items': 'exact',
   '/welcome': 'startsWith',
   '/sign_in': 'startsWith',
+  '/export':'exact',
+  '/notify': 'exact',
 }
 router.beforeEach((to, from) => {
   // 遍历白名单
