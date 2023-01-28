@@ -28,23 +28,13 @@ export const Charts = defineComponent({
     // 数据类型转换
     const betterData1 = computed(() => {
       if (!props.startDate || !props.endDate) return []
-      const array = []
-      // 1. 根据传入的开始和结束日期计算应显示的天数
       const diff = new Date(props.endDate!).getTime() - new Date(props.startDate!).getTime()
       const n = diff / DAY + 1 // 两个日期之间的天数
-      let data1Index = 0 // 后端数据的索引
-      // 2. 循环n次，每次循环都push一个数组，数组的第一个元素是时间戳，第二个元素是金额
-      for (let i = 0; i < n; i++) {
+      const array = Array.from({ length: n }).map((_, i) => {
         const time = new Time(props.startDate + 'T00:00:00.000+0800').add(i, 'day').getTimeStamp()
-        // 如果后端返回的日期与当前日期相同（比较时间戳），就push后端返回的金额
-        if (data1.value[data1Index] && new Date(data1.value[data1Index].happen_at).getTime() === time) {
-          array.push([time, data1.value[data1Index].amount])
-          data1Index += 1 // 每push一次就把索引+1
-        } else {
-          // 后端无数据，金额为0
-          array.push([time, 0])
-        }
-      }
+        const amount = data1.value.find(item => new Date(item.happen_at).getTime() === time)?.amount || 0
+        return [time, amount]
+      })
       return array as [string, number][]
     })
     onMounted(async () => {
