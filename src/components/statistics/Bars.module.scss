@@ -41,6 +41,7 @@
       left: 0;
       height: 100%;
       width: 0;
+      transition: width 0.5s;
     }
   }
   &:nth-child(1) {
@@ -56,6 +57,11 @@
   &:nth-child(3) {
     .bar_inner {
       background: #91cc75;
+    }
+  }
+  &:nth-child(4) {
+    .bar_inner {
+      background: #302770;
     }
   }
 }
