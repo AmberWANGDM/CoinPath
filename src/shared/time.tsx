@@ -89,4 +89,10 @@ export class Time {
     }
     return new Time(date)
   }
+  getRaw = () => {
+    return this.date
+  }
+  getTimeStamp = () => {
+    return this.date.getTime()
+  }
 }
