@@ -23,9 +23,11 @@ export const Overlay = defineComponent({
       Dialog.confirm({
         title: '确定',
         message: '确定要退出登录吗？'
+      }).then(() => {
+        localStorage.removeItem('jwt')
+        router.push('/sign_in')
       })
-      localStorage.removeItem('jwt')
-      router.push('/sign_in')
+        .catch(() => { })
     }
     return () =>
       <>
