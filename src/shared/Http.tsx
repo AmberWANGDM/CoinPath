@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { Toast } from "vant";
 import { mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession, mocktagEdit, mockTagIndex, mockTagShow } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
@@ -37,7 +38,7 @@ const mock = (response: AxiosResponse) => {
   if (location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
     && location.hostname !== '192.168.3.57') { return false }
-  switch (response.config?.params?._mock) {
+  switch (response.config?._mock) {
     case 'itemSummary':
       [response.status, response.data] = mockItemSummary(response.config)
       return true
@@ -75,6 +76,13 @@ http.instance.interceptors.request.use((config) => {
     // 类型断言 !.
     config.headers!.Authorization = `Bearer ${jwt}`
   }
+  if (config._autoLoading === true) {
+    Toast.loading({
+      message: '加载中...',
+      forbidClick: true,
+      duration: 0
+    });
+  }
   return config
 }, (error) => {
   return Promise.reject(error)
@@ -110,3 +118,12 @@ http.instance.interceptors.response.use((response) => {
   // return Promise.reject(error) 等价于 
   throw error
 })
+// 响应拦截器-关闭loading
+http.instance.interceptors.response.use((response) => {
+  Toast.clear()
+  return response
+}, (error) => {
+  Toast.clear()
+  throw error
+}
+)

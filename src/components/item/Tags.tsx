@@ -19,9 +19,8 @@ export const Tags = defineComponent({
     const { tags, hasMore, fetchTags } = useTags((page) => {
       return http.get<Resources<Tag>>('/tags', {
         kind: props.kind,
-        _mock: 'tagIndex',
         page: page + 1,
-      })
+      }, { _mock: 'tagIndex' })
     })
     const timer = ref<number>()
     const currentTag = ref<HTMLDivElement>()

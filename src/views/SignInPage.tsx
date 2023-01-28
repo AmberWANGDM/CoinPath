@@ -59,7 +59,7 @@ export const SignInPage = defineComponent({
     const onClickSendValidationCode = async () => {
       enable()
       const response = await http
-        .post('/validation_codes', { email: formData.email })
+        .post('/validation_codes', { email: formData.email }, { _autoLoading: true })
         .catch(onError)
         .finally(disable)
       // 请求验证码成功后，调用子组件的函数，开始倒计时
