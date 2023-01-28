@@ -69,6 +69,16 @@ export const Charts = defineComponent({
       })
       data2.value = response.data.groups
     })
+
+    const betterData3 = computed<{ tag: Tag, amount: number, percent: number }[]>(() => {
+      // 计算total
+      const total = data2.value.reduce((sum, item) => sum + item.amount, 0)
+      // 计算percent
+      return data2.value.map(item => ({
+        ...item,
+        percent: Math.round(item.amount / total * 100)
+      }))
+    })
     return () => (
       <>
         <div class={s.wrapper}>
@@ -84,7 +94,7 @@ export const Charts = defineComponent({
           />
           <LineChart data={betterData1.value} />
           <PieChart data={betterData2.value} />
-          <Bars />
+          <Bars data={betterData3.value} />
         </div>
       </>
     )
