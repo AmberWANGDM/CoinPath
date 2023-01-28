@@ -36,10 +36,11 @@ export const Overlay = defineComponent({
         <div class={s.overlay}>
           <section class={s.currentUser}>
             {me.value ?
-              <div>
-                <h2 class={s.email}>{me.value.email}</h2>
+              <>
+                <RouterLink to={'/items'}><h2 class={s.email}>{me.value.email}</h2></RouterLink>
                 <p onClick={onSignOut}>点击这里注销</p>
-              </div> :
+              </>
+              :
               <RouterLink to={`'/sign_in?return_to=${route.fullPath}`}>
                 <h2>未登录用户</h2>
                 <p>点击这里登录</p>

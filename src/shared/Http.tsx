@@ -67,7 +67,7 @@ const mock = (response: AxiosResponse) => {
   return false
 }
 
-export const http = new Http('api/v1')
+export const http = new Http('/api/v1')
 
 // 请求拦截器
 http.instance.interceptors.request.use((config) => {

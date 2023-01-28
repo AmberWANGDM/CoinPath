@@ -23,6 +23,7 @@
   background: var(--overlay-user-bg);
   color: var(--overlay-user-text);
   > p {
+    margin-top: 10px;
     color: var(--overlay-user-login-text);
   }
 }
