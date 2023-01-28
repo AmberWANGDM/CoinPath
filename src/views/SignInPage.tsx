@@ -42,7 +42,7 @@ export const SignInPage = defineComponent({
       )
       if (!hasError(errors)) {
         const response = await http
-          .post<{ jwt: string }>('/session', formData)
+          .post<{ jwt: string }>('/session', formData, { _autoLoading: true })
           .catch(onError)
         localStorage.setItem('jwt', response!.data.jwt)
         // 1 const returnTo = localStorage.getItem('returnTo')
