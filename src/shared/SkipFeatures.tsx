@@ -7,7 +7,7 @@ export const SkipFeatures = defineComponent({
       localStorage.setItem('skipFeatures', 'yes')
     }
     return () => (
-      <span onClick={onClick} ><RouterLink to='/start'>跳过</RouterLink></span>
+      <span onClick={onClick} ><RouterLink to='/items'>跳过</RouterLink></span>
     )
   }
 })

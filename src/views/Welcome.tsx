@@ -14,7 +14,7 @@ import s from './Welcome.module.scss'
 const pushMap: Record<string, string> = {
   'Welcome1': '/welcome/2',
   'Welcome2': '/welcome/3',
-  'Welcome3': '/start'
+  'Welcome3': '/items'
 }
 
 export const Welcome = defineComponent({

@@ -6,7 +6,7 @@ const onClick = () => {
 }
 export const ThirdActions: FunctionalComponent = () => {
   return <div class={s.actions}>
-    <span onClick={onClick}><RouterLink class={s.next} to="/start">进入首页</RouterLink></span>
+    <span onClick={onClick}><RouterLink class={s.next} to="/items">进入首页</RouterLink></span>
   </div>
 }
 

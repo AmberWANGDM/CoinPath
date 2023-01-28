@@ -16,7 +16,7 @@ fetchMe() // 预先获取用户信息
 // 白名单
 const whiteList: Record<string, 'exact' | 'startsWith'> = {
   '/': 'exact',
-  '/start': 'exact',
+  '/items': 'exact',
   '/welcome': 'startsWith',
   '/sign_in': 'startsWith',
 }

@@ -1,4 +1,22 @@
 .wrapper {
+  .button {
+    display: block;
+    width: 100%;
+    &_wrapper {
+      padding: 16px 57px;
+    }
+  }
+  .start_center {
+    width: 280px;
+    height: 280px;
+    &_wrapper {
+      margin-top: 180px;
+    }
+  }
+
+  .navIcon {
+    width: 100%;
+  }
 }
 .total {
   background: var(--total-bg);
