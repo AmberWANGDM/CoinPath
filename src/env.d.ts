@@ -54,3 +54,8 @@ type User = {
   id: number,
   email: string
 }
+
+// FormErrors可以看做一个函数，返回一个对象
+// {[]:string[]}，这里的[]表示任意的key，string[]表示value的类型
+// T为泛型，因此传对象时前面需要加typeof
+type FormErrors<T> = {[K in keyof T]:string[]}

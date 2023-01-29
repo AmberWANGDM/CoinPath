@@ -1,15 +1,17 @@
 // 1. 传入的 formData 是一个对象，对象的 key 可以是任意的字符串，值可以是任意的类型
 interface FData {
-  [k: string]: string | number | null | undefined | FData
+  [k: string]: JSONValue
 }
 
 // 2. 传入的 rules 是一个数组，数组的每一项是一个对象，对象的 key 是 T 的子集，值是一个字符串
 type Rule<T> = {
   key: keyof T,
   message: string
-  // required?: boolean
-  // pattern?: RegExp
-} & ({ type: 'required' } | { type: 'pattern', regex: RegExp })
+} & (
+    { type: 'required' } |
+    { type: 'pattern', regex: RegExp } |
+    { type: 'notequal', value: JSONValue }
+  )
 
 type Rules<T> = Rule<T>[]
 
@@ -29,24 +31,31 @@ export const validate = <T extends FData>(formData: T, rules: Rules<T>) => {
     // 根据type的不同，进行不同的校验
     switch (type) {
       case 'required': // 如果是必填项，且值为空，则将message添加到errors中
-        if (!value) {
+        if (isEmpty(value)) {
           errors[key] = errors[key] || []
           errors[key]?.push(message)
         }
         break
       case 'pattern': // 如果是正则校验，且值不符合正则，则将message添加到errors中
-        if (value && !rule.regex.test(value.toString())) {
+        if (!isEmpty(value) && !rule.regex.test(value!.toString())) {
           errors[key] = errors[key] || []
           errors[key]?.push(message)
         }
         break
+      case 'notequal':
+        if (!isEmpty(value) && value === rule.value) {
+          errors[key] = errors[key] || []
+          errors[key]?.push(message)
+        }
       default:
         break
     }
   })
   return errors
 }
-
+function isEmpty(value: JSONValue) {
+  return value === null || value === undefined || value === '' || (value as JSONValue[]).length === 0
+}
 export function hasError(errors: Record<string, string[]>) {
   let result = false
   for (let key in errors) {

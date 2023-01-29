@@ -13,8 +13,6 @@ export const TagForm = defineComponent({
   setup: (props, context) => {
     const route = useRoute()
     const router = useRouter()
-    // typescript 的 keyof 语法 https://www.typescriptlang.org/docs/handbook/2/keyof-types.html
-    const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({})
     if (!route.query.kind) {
       return () => <div>参数错误</div>
     }
@@ -22,24 +20,21 @@ export const TagForm = defineComponent({
       id: undefined,
       name: '',
       sign: '',
-      kind: route.query.kind.toString(),
+      kind: route.query.kind.toString() as ('income' | 'expenses'),
     })
     onMounted(async () => {
       if (!props.id) return
       const response = await http.get<Resource<Tag>>(`/tags/${props.id}`, {}, { _mock: 'tagShow', _autoLoading: true })
       Object.assign(formData, response.data.resource)
     })
+
+    const errors = reactive<FormErrors<typeof formData>>({})
     const onSubmit = async (e: Event) => {
       e.preventDefault()
       // ts 会提前自动推断 rules 的类型, 需要导出 Rules 类型
       const rules: Rules<typeof formData> = [
         { key: 'name', type: 'required', message: '必填' },
-        {
-          key: 'name',
-          type: 'pattern',
-          regex: /^.{0,4}$/,
-          message: '最多4个字符',
-        },
+        { key: 'name', type: 'pattern', regex: /^.{0,4}$/, message: '最多4个字符' },
         { key: 'sign', type: 'required', message: '请选择符号' },
       ]
       Object.assign(errors, {
