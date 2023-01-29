@@ -1,4 +1,3 @@
-import { fetchMe, mePromise } from './shared/me'
 import { createApp } from 'vue'
 import { App } from './App'
 
@@ -9,10 +8,20 @@ import { history } from './shared/history'
 import '@svgstore'
 
 import 'vant/lib/index.css'
+import { createPinia } from 'pinia'
+import { useMeStore } from './stores/useMeStore'
 
 const router = createRouter({ history, routes })
+
+
+const app = createApp(App)
+const pinia = createPinia()
+app.use(router)
+app.use(pinia)
+app.mount('#app')
+const meStore = useMeStore()
 // 全局路由守卫
-fetchMe() // 预先获取用户信息
+meStore.fetchMe() // 预先获取用户信息
 // 白名单
 const whiteList: Record<string, 'exact' | 'startsWith'> = {
   '/': 'exact',
@@ -30,12 +39,8 @@ router.beforeEach((to, from) => {
     if (value === 'startsWith' && to.path.startsWith(key)) return true
   }
   // 非白名单
-  return mePromise!.then(
+  return meStore.mePromise!.then(
     () => true, // 已登录，继续
     () => '/sign_in?return_to=' + to.path // 未登录，跳转到登录页
   )
 })
-
-const app = createApp(App)
-app.use(router)
-app.mount('#app')

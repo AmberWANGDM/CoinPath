@@ -8,10 +8,11 @@ import s from './SignInPage.module.scss'
 import { http } from '../shared/Http'
 import { useBool } from '../hooks/useBool'
 import { useRoute, useRouter } from 'vue-router'
-import { refreshMe } from '../shared/me'
-import { BackIcon } from '../shared/BackIcon'
+import { useMeStore } from '../stores/useMeStore'
+
 export const SignInPage = defineComponent({
   setup: (props, context) => {
+    const meStore = useMeStore()
     const formData = reactive({
       email: 'wangdanmeng98@163.com',
       code: '',
@@ -50,7 +51,7 @@ export const SignInPage = defineComponent({
         // 2 在任何跳转到登录界面的地方使用 query 参数 return_to 来指定登录成功后跳转的页面 router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath))
         const returnTo = route.query.return_to?.toString()
         // 更新用户信息
-        refreshMe()
+        meStore.refreshMe()
         router.push(returnTo || '/')
       }
     }
