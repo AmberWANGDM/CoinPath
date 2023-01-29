@@ -1,5 +1,6 @@
 import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
+import { useAfterMe } from '../../hooks/useAfterMe';
 import { Button } from '../../shared/Button/Button';
 import { Center } from '../../shared/Center/Center';
 import { Datetime } from '../../shared/DateTime';
@@ -28,15 +29,15 @@ export const ItemSummary = defineComponent({
       if (!props.startDate || !props.endDate) return
       const response = await http.get<Resources<Item>>('/items', {
         page: page.value + 1,
-        created_before: props.startDate,
-        created_after: props.endDate,
+        happen_after: props.startDate,
+        happen_before: props.endDate,
       }, { _mock: 'itemIndex', _autoLoading: true })
       const { resources, pager } = response.data
       items.value.push(...resources)
       hasMore.value = (pager.page - 1) * pager.per_page + resources.length < pager.count
       page.value += 1
     }
-    onMounted(fetchItems)
+    useAfterMe(fetchItems)
     // 收支情况
     const itemsBalance = reactive({
       expenses: 0, income: 0, balance: 0
@@ -52,7 +53,7 @@ export const ItemSummary = defineComponent({
       })
       Object.assign(itemsBalance, response.data)
     }
-    onMounted(fetchItemBalance)
+    useAfterMe(fetchItemBalance)
     // 监听自定义时间
     watch(() => [props.startDate, props.endDate], () => {
       hasMore.value = false
