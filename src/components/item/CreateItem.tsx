@@ -3,8 +3,8 @@ import { Toast } from 'vant'
 import { defineComponent, PropType, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { MainLayout } from '../../layouts/MainLayout'
-import { BackIcon } from '../../shared/BackIcon'
 import { http } from '../../shared/Http'
+import { Icon } from '../../shared/Icon/Icon'
 import { Tab, Tabs } from '../../shared/Tabs/Tabs'
 import { hasError, validate } from '../../shared/validate'
 import s from './CreateItem.module.scss'
@@ -60,7 +60,7 @@ export const CreateItem = defineComponent({
       <MainLayout>
         {{
           title: () => '记一笔',
-          icon: () => <BackIcon />,
+          icon: () => <Icon name='back' onClick={() => router.push('/items')} />,
           default: () => (
             <>
               <div class={s.wrapper}>
