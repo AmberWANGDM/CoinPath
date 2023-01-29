@@ -58,11 +58,11 @@ export const SignInPage = defineComponent({
       Object.assign(errors, error.response.data.errors)
     }
     const onClickSendValidationCode = async () => {
-      enable()
-      const response = await http
+      disable()
+      await http
         .post('/validation_codes', { email: formData.email }, { _autoLoading: true })
         .catch(onError)
-        .finally(disable)
+        .finally(enable)
       // 请求验证码成功后，调用子组件的函数，开始倒计时
       refValidationCode.value?.startCount()
     }
@@ -91,7 +91,7 @@ export const SignInPage = defineComponent({
                   placeholder="请输入验证码"
                   v-model={formData.code}
                   error={errors.code?.[0]}
-                  countFrom={60}
+                  countFrom={3}
                   ref={refValidationCode}
                   onClick={onClickSendValidationCode}
                   disabled={refDisabled.value}
