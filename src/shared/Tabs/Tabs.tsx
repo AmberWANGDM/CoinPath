@@ -28,10 +28,10 @@ export const Tabs = defineComponent({
             normalizedTabs.map(item => {
               // 获取子组件的 name 属性
               return <li class={
-                [item.props?.name === props.selected ? [s.selected, cp + '_selected'] : '',
+                [item.props?.value === props.selected ? [s.selected, cp + '_selected'] : '',
                 cp + '_tabs_nav_item']
               }
-                onClick={() => context.emit('update:selected', item.props?.name)}>
+                onClick={() => context.emit('update:selected', item.props?.value)}>
                 {item.props?.name}
               </li>
             }
@@ -39,12 +39,12 @@ export const Tabs = defineComponent({
           }</ol>
         {props.reRenderOnSelect ?
           <div key={props.selected}>
-            {normalizedTabs.find(item => item.props?.name === props.selected)}
+            {normalizedTabs.find(item => item.props?.value === props.selected)}
           </div>
           :
           <div>
             {normalizedTabs.map((item) => (
-              <div v-show={item.props?.name === props.selected}>{item}</div>
+              <div v-show={item.props?.value === props.selected}>{item}</div>
             ))}
           </div>
         }
@@ -56,7 +56,12 @@ export const Tabs = defineComponent({
 export const Tab = defineComponent({
   props: {
     name: {
-      type: String as PropType<string>
+      type: String as PropType<string>,
+      require: true
+    },
+    value: {
+      type: String as PropType<string>,
+      require: true
     }
   },
   setup: (props, context) => {

@@ -43,7 +43,7 @@ type Item = {
   tag_ids: number[]
   tags?:[Tag]
   happen_at: string
-  kind: expenses | income
+  kind: 'expenses' | 'income'
 }
 
 type ResourceError = {

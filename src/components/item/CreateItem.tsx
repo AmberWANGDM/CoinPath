@@ -9,6 +9,7 @@ import { Tab, Tabs } from '../../shared/Tabs/Tabs'
 import s from './CreateItem.module.scss'
 import { InputPad } from './InputPad'
 import { Tags } from './Tags'
+
 export const CreateItem = defineComponent({
   props: {
     name: {
@@ -17,8 +18,8 @@ export const CreateItem = defineComponent({
   },
   setup: (props, context) => {
     const router = useRouter()
-    const formData = reactive({
-      kind: '支出',
+    const formData = reactive<Partial<Item>>({
+      kind: 'expenses',
       tag_ids: [],
       amount: 0,
       happen_at: new Date().toISOString(),
@@ -44,13 +45,13 @@ export const CreateItem = defineComponent({
             <>
               <div class={s.wrapper}>
                 <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                  <Tab name="支出">
+                  <Tab value='expenses' name="支出">
                     <Tags
                       kind="expenses"
                       v-model:selected={formData.tag_ids[0]}
                     />
                   </Tab>
-                  <Tab name="收入">
+                  <Tab value='income' name="收入">
                     <Tags
                       kind="income"
                       v-model:selected={formData.tag_ids[0]}
