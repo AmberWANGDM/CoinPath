@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 import { Toast } from 'vant'
-import { defineComponent, PropType, reactive } from 'vue'
+import { defineComponent, PropType, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { MainLayout } from '../../layouts/MainLayout'
 import { http } from '../../shared/Http'
@@ -56,6 +56,9 @@ export const CreateItem = defineComponent({
         .catch(onError)
       router.push('/items')
     }
+    watch(() => formData.kind, (kind) => {
+      formData.tag_ids = []
+    })
     return () => (
       <MainLayout>
         {{

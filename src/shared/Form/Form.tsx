@@ -51,7 +51,6 @@ export const FormItem = defineComponent({
   emits: ['update:modelValue'],
   setup: (props, context) => {
     const refDatePickerVisible = ref(false)
-    const refDatePickerValue = ref(new Date(props.modelValue as string))
     // 倒计时
     const timer = ref<number>()
     const count = ref<number>(props.countFrom)
