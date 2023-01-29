@@ -4,7 +4,7 @@ import { Button } from '../../shared/Button/Button'
 import { TagForm } from './TagForm'
 import s from './Tag.module.scss'
 import { BackIcon } from '../../shared/BackIcon'
-import { routerKey, useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { http } from '../../shared/Http'
 import { Dialog, Toast } from 'vant'
 import { AxiosError } from 'axios'
@@ -23,12 +23,13 @@ export const TagEdit = defineComponent({
     }
     const onDelete = async (options?: { withItems: boolean }) => {
       await Dialog.confirm({
-        title: '确认',
-        message: '你真的要删除吗？'
+        title: '❗️警告',
+        message: '删除标签对应的记账记录也会被删除，\n且无法恢复\n你真的要删除吗？'
       })
-      await http.delete(`/tags/${numberId}`, {
-        withItems: options?.withItems ? 'true' : 'false'
-      }, { _autoLoading: true }).catch(onError)
+      await http.delete(`/tags/${numberId}`,
+        {},
+        { _autoLoading: true })
+        .catch(onError)
       router.back()
     }
     return () => (
@@ -40,12 +41,9 @@ export const TagEdit = defineComponent({
             <>
               <TagForm id={numberId} />
               <div class={s.actions}>
-                <Button class={s.removeTags} level="danger"
+
+                <Button level="danger"
                   onClick={() => onDelete()}>
-                  删除标签
-                </Button>
-                <Button class={s.removeTagsAndItems} level="danger"
-                  onClick={() => onDelete({ withItems: true })}>
                   删除标签和记账
                 </Button>
               </div>
