@@ -9,7 +9,6 @@ type ItemActions = {
   _fetch: (firstPage: boolean, startDate?: string, endDate?: string) => void,
   fetchItems: (startDate?: string, endDate?: string) => void,
   fetchNextPage: (startDate?: string, endDate?: string) => void,
-  reset: () => void
 }
 export const useItemStore = (id: string) => defineStore<string, ItemState, {}, ItemActions>(id, {
   state: () => {
@@ -20,11 +19,6 @@ export const useItemStore = (id: string) => defineStore<string, ItemState, {}, I
     }
   },
   actions: {
-    reset() {
-      this.hasMore = false
-      this.page = 0
-      this.items = []
-    },
     async _fetch(firstPage, startDate, endDate) {
       if (!startDate || !endDate) return
       const response = await http.get<Resources<Item>>('/items', {

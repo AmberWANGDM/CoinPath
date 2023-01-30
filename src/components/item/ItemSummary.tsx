@@ -28,7 +28,7 @@ export const ItemSummary = defineComponent({
     itemStore.fetchItems(props.startDate, props.endDate)
     useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate))
     watch(() => [props.startDate, props.endDate], () => {
-      itemStore.reset()
+      itemStore.$reset()
       itemStore.fetchItems(props.startDate, props.endDate)
     })
     // 收支情况
