@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, reactive, ref, watch } from 'vue';
+import { defineComponent, PropType, reactive, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAfterMe } from '../../hooks/useAfterMe';
 import { Button } from '../../shared/Button/Button';
@@ -8,8 +8,10 @@ import { FloatButton } from '../../shared/FloatButton/FloatButton';
 import { http } from '../../shared/Http';
 import { Icon } from '../../shared/Icon/Icon';
 import { Money } from '../../shared/Money';
+import { useItemStore } from '../../stores/useItemStore';
 import s from './ItemSummary.module.scss';
 export const ItemSummary = defineComponent({
+  name: 'ItemSummary',
   props: {
     startDate: {
       type: String as PropType<string>,
@@ -21,23 +23,14 @@ export const ItemSummary = defineComponent({
     }
   },
   setup: (props, context) => {
-    const page = ref<number>(0)
-    const items = ref<Item[]>([])
-    const hasMore = ref<boolean>(false)
+    const itemStore = useItemStore(`items-${props.startDate}-${props.endDate}`)()
     // 记账记录
-    const fetchItems = async () => {
-      if (!props.startDate || !props.endDate) return
-      const response = await http.get<Resources<Item>>('/items', {
-        page: page.value + 1,
-        happen_after: props.startDate,
-        happen_before: props.endDate,
-      }, { _mock: 'itemIndex', _autoLoading: true })
-      const { resources, pager } = response.data
-      items.value.push(...resources)
-      hasMore.value = (pager.page - 1) * pager.per_page + resources.length < pager.count
-      page.value += 1
-    }
-    useAfterMe(fetchItems)
+    itemStore.fetchItems(props.startDate, props.endDate)
+    useAfterMe(() => itemStore.fetchItems(props.startDate, props.endDate))
+    watch(() => [props.startDate, props.endDate], () => {
+      itemStore.reset()
+      itemStore.fetchItems(props.startDate, props.endDate)
+    })
     // 收支情况
     const itemsBalance = reactive({
       expenses: 0, income: 0, balance: 0
@@ -47,24 +40,22 @@ export const ItemSummary = defineComponent({
       const response = await http.get('/items/balance', {
         happen_after: props.startDate,
         happen_before: props.endDate,
-        page: page.value + 1,
+        page: itemStore.page + 1,
       }, {
         _mock: 'itemIndexBalance', _autoLoading: true
       })
       Object.assign(itemsBalance, response.data)
     }
     useAfterMe(fetchItemBalance)
-    // 监听自定义时间
     watch(() => [props.startDate, props.endDate], () => {
-      hasMore.value = false
-      page.value = 0
-      items.value = []
-      fetchItems()
+      Object.assign(itemsBalance, {
+        expenses: 0, income: 0, balance: 0
+      })
       fetchItemBalance()
     })
     return () => (
       <div class={s.wrapper}>
-        {items.value && items.value.length > 0 ?
+        {itemStore.items && itemStore.items.length > 0 ? (
           <>
             <ul class={s.total}>
               <li><span>收入</span><Money value={itemsBalance.income} /></li>
@@ -72,7 +63,7 @@ export const ItemSummary = defineComponent({
               <li><span>净收入</span><Money value={itemsBalance.balance} /></li>
             </ul>
             <ol class={s.list}>
-              {items.value.map(item => (
+              {itemStore.items.map(item => (
                 <li>
                   <div class={s.sign}>
                     <span>{item.tags && item.tags.length > 0 ? item.tags![0].sign : '💰'}</span>
@@ -90,12 +81,12 @@ export const ItemSummary = defineComponent({
               ))}
             </ol>
             <div class={s.more}>
-              {hasMore.value ?
-                <Button onClick={fetchItems}>加载更多</Button> :
+              {itemStore.hasMore ?
+                <Button onClick={() => itemStore.fetchItems(props.startDate, props.endDate)}>加载更多</Button> :
                 <span>没有更多</span>
               }
             </div>
-          </>
+          </>)
           :
           <>
             <Center class={s.start_center_wrapper}>
