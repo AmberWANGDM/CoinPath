@@ -2,6 +2,7 @@ import { defineComponent, PropType } from 'vue';
 import s from './Navbar.module.scss';
 
 export const Navbar = defineComponent({
+  name: 'Navbar',
   setup: (props, context) => {
     const { slots } = context
     return () => (

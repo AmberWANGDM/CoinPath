@@ -2,6 +2,7 @@ import { defineComponent, PropType } from 'vue'
 import { Navbar } from '../shared/Navbar/Navbar'
 import s from './MainLayout.module.scss'
 export const MainLayout = defineComponent({
+  name: 'MainLayout',
   props: {
     name: {
       type: String as PropType<string>,
