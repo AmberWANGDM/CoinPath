@@ -41,6 +41,6 @@ router.beforeEach((to, from) => {
   // 非白名单
   return meStore.mePromise!.then(
     () => true, // 已登录，继续
-    () => '/sign_in?return_to=' + to.path // 未登录，跳转到登录页
+    () =>  '/sign_in?return_to=' + from.path // 未登录，跳转到登录页
   )
 })

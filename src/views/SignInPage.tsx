@@ -9,6 +9,7 @@ import { http } from '../shared/Http'
 import { useBool } from '../hooks/useBool'
 import { useRoute, useRouter } from 'vue-router'
 import { useMeStore } from '../stores/useMeStore'
+import { BackIcon } from '../shared/BackIcon'
 
 export const SignInPage = defineComponent({
   setup: (props, context) => {
@@ -72,7 +73,7 @@ export const SignInPage = defineComponent({
       <MainLayout>
         {{
           title: () => '登录',
-          icon: () => <Icon name='back' onClick={() => router.push('/items')} />,
+          icon: () => <BackIcon />,
           default: () => (
             <div class={s.wrapper}>
               <div class={s.app_wrapper}>
