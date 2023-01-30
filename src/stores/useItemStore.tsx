@@ -6,7 +6,9 @@ type ItemState = {
   hasMore: boolean
 }
 type ItemActions = {
+  _fetch: (firstPage: boolean, startDate?: string, endDate?: string) => void,
   fetchItems: (startDate?: string, endDate?: string) => void,
+  fetchNextPage: (startDate?: string, endDate?: string) => void,
   reset: () => void
 }
 export const useItemStore = (id: string) => defineStore<string, ItemState, {}, ItemActions>(id, {
@@ -23,17 +25,28 @@ export const useItemStore = (id: string) => defineStore<string, ItemState, {}, I
       this.page = 0
       this.items = []
     },
-    async fetchItems(startDate, endDate) {
+    async _fetch(firstPage, startDate, endDate) {
       if (!startDate || !endDate) return
       const response = await http.get<Resources<Item>>('/items', {
-        page: this.page + 1,
+        page: firstPage ? 1 : this.page + 1,
         happen_after: startDate,
         happen_before: endDate,
       }, { _mock: 'itemIndex', _autoLoading: true })
       const { resources, pager } = response.data
-      this.items.push(...resources)
+      if (firstPage) {
+        this.items = resources
+      }
+      else {
+        this.items.push(...resources)
+      }
       this.hasMore = (pager.page - 1) * pager.per_page + resources.length < pager.count
       this.page += 1
+    },
+    async fetchItems(startDate, endDate) {
+      this._fetch(true, startDate, endDate)
+    },
+    async fetchNextPage(startDate, endDate) {
+      this._fetch(false, startDate, endDate)
     }
   }
 })
