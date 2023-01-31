@@ -1,5 +1,5 @@
 import { defineComponent, PropType, ref } from 'vue'
-import { routerKey, RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { useTags } from '../../hooks/useTags'
 import { Button } from '../../shared/Button/Button'
 import { http } from '../../shared/Http'
@@ -25,7 +25,7 @@ export const Tags = defineComponent({
     const timer = ref<number>()
     const currentTag = ref<HTMLDivElement>()
     const longPress = (tagId: Tag['id']) => {
-      router.push(`/tags/${tagId}/edit?kind=${props.kind}&return_to=${router.currentRoute.value.fullPath}`)
+      router.push(`/tags/${tagId}/edit?kind=${props.kind}`)
     }
     const onSelect = (tag: Tag) => {
       context.emit('update:selected', tag.id)

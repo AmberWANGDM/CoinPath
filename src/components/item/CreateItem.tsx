@@ -3,6 +3,7 @@ import { Toast } from 'vant'
 import { defineComponent, PropType, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { MainLayout } from '../../layouts/MainLayout'
+import { BackIcon } from '../../shared/BackIcon'
 import { http } from '../../shared/Http'
 import { Icon } from '../../shared/Icon/Icon'
 import { Tab, Tabs } from '../../shared/Tabs/Tabs'
@@ -63,7 +64,7 @@ export const CreateItem = defineComponent({
       <MainLayout>
         {{
           title: () => '记一笔',
-          icon: () => <Icon name='back' onClick={() => router.push('/items')} />,
+          icon: () => <BackIcon />,
           default: () => (
             <>
               <div class={s.wrapper}>
