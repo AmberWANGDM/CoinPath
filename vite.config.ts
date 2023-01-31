@@ -6,7 +6,7 @@ import { svgstore } from './src/vite_plugins/svgstore';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:'/amber',
+  base:'https://danmeng98.oss-cn-hangzhou.aliyuncs.com/coinpath/',
   plugins: [
     vue(),
     vueJsx({
