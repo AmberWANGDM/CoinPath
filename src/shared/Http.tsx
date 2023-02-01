@@ -37,7 +37,7 @@ const mock = (response: AxiosResponse) => {
   // 排除线上地址
   if (true || location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.3.57') { return false }
+    && location.hostname !== '192.168.0.104') { return false }
   switch (response.config?._mock) {
     case 'itemSummary':
       [response.status, response.data] = mockItemSummary(response.config)
@@ -66,8 +66,14 @@ const mock = (response: AxiosResponse) => {
   }
   return false
 }
+const isDev = () => {
+  if (location.hostname !== 'localhost'
+    && location.hostname !== '127.0.0.1'
+    && location.hostname !== '192.168.0.104') { return false }
+  return true
+}
 
-export const http = new Http('/api/v1')
+export const http = new Http(isDev() ? '/api/v1/' : 'http://121.196.236.94:3000/api/v1')
 
 // 请求拦截器
 http.instance.interceptors.request.use((config) => {
