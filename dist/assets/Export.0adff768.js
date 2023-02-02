@@ -1,0 +1,1 @@
+import{C as o}from"./ComingSoon.a541ebdc.js";import{bF as t,bE as r}from"./vendor.6788785e.js";import"./index.7c9ef64d.js";import"./vant.1989d0ae.js";const i=t({props:{name:{type:String}},setup:(e,p)=>()=>r(o,null,null)});export{i as default};

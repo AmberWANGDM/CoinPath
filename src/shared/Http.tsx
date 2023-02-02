@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { Toast } from "vant";
-import { mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession, mocktagEdit, mockTagIndex, mockTagShow } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -33,47 +32,8 @@ export class Http {
     return this.instance.request<R>({ ...config, url: url, params: query, method: 'delete' })
   }
 }
-const mock = (response: AxiosResponse) => {
-  // 排除线上地址
-  if (true || location.hostname !== 'localhost'
-    && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.0.104') { return false }
-  switch (response.config?._mock) {
-    case 'itemSummary':
-      [response.status, response.data] = mockItemSummary(response.config)
-      return true
-    case 'itemIndexBalance':
-      [response.status, response.data] = mockItemIndexBalance(response.config)
-      return true
-    case 'itemIndex':
-      [response.status, response.data] = mockItemIndex(response.config)
-      return true
-    case 'tagEdit':
-      [response.status, response.data] = mocktagEdit(response.config)
-      return true
-    case 'tagShow':
-      [response.status, response.data] = mockTagShow(response.config)
-      return true
-    case 'itemCreate':
-      [response.status, response.data] = mockItemCreate(response.config)
-      return true
-    case 'tagIndex':
-      [response.status, response.data] = mockTagIndex(response.config)
-      return true
-    case 'session':
-      [response.status, response.data] = mockSession(response.config)
-      return true
-  }
-  return false
-}
-const isDev = () => {
-  if (location.hostname !== 'localhost'
-    && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.0.104') { return false }
-  return true
-}
 
-export const http = new Http(isDev() ? '/api/v1/' : 'http://121.196.236.94:3000/api/v1')
+export const http = new Http(DEBUG ? '/api/v1/' : 'http://121.196.236.94:3000/api/v1')
 
 // 请求拦截器
 http.instance.interceptors.request.use((config) => {
@@ -93,23 +53,59 @@ http.instance.interceptors.request.use((config) => {
 }, (error) => {
   return Promise.reject(error)
 })
-// 响应拦截器-mock
-http.instance.interceptors.response.use((response) => {
-  // 尝试mock，对response进行篡改
-  mock(response)
-  if (response.status >= 400) {
-    throw response
-  } else {
-    return response
-  }
-}, (error) => {
-  mock(error.response)
-  if (error.response.status >= 400) {
-    throw error
-  } else {
-    return error.response
-  }
-})
+
+// 测试环境mock
+if (DEBUG) {
+  import('../mock/mock').then(({ mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession, mocktagEdit, mockTagIndex, mockTagShow }) => {
+    const mock = (response: AxiosResponse) => {
+      switch (response.config?._mock) {
+        case 'itemSummary':
+          [response.status, response.data] = mockItemSummary(response.config)
+          return true
+        case 'itemIndexBalance':
+          [response.status, response.data] = mockItemIndexBalance(response.config)
+          return true
+        case 'itemIndex':
+          [response.status, response.data] = mockItemIndex(response.config)
+          return true
+        case 'tagEdit':
+          [response.status, response.data] = mocktagEdit(response.config)
+          return true
+        case 'tagShow':
+          [response.status, response.data] = mockTagShow(response.config)
+          return true
+        case 'itemCreate':
+          [response.status, response.data] = mockItemCreate(response.config)
+          return true
+        case 'tagIndex':
+          [response.status, response.data] = mockTagIndex(response.config)
+          return true
+        case 'session':
+          [response.status, response.data] = mockSession(response.config)
+          return true
+      }
+      return false
+    }
+    // 响应拦截器-mock
+    http.instance.interceptors.response.use((response) => {
+      // 尝试mock，对response进行篡改
+      mock(response)
+      if (response.status >= 400) {
+        throw response
+      } else {
+        return response
+      }
+    }, (error) => {
+      mock(error.response)
+      if (error.response.status >= 400) {
+        throw error
+      } else {
+        return error.response
+      }
+    })
+  })
+}
+
 // 响应拦截器-公共错误处理
 http.instance.interceptors.response.use((response) => {
   return response
