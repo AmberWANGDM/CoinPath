@@ -17,7 +17,7 @@ const pushMap: Record<string, string> = {
   'Welcome3': '/items'
 }
 
-export const Welcome = defineComponent({
+const Welcome = defineComponent({
   setup: (props, context) => {
     const route = useRoute()
     const router = useRouter()
@@ -67,3 +67,5 @@ export const Welcome = defineComponent({
     )
   }
 })
+
+export default Welcome

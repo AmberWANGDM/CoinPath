@@ -7,6 +7,26 @@ import { svgstore } from './src/vite_plugins/svgstore';
 // https://vitejs.dev/config/
 export default defineConfig({
   base:'https://coinpath.oss-cn-hangzhou.aliyuncs.com',
+  build:{
+    rollupOptions:{
+        output:{
+          manualChunks(id:any){
+            if(id.includes('echarts')){
+              return 'echarts'
+            }
+            if(id.includes('vant')){
+              return 'vant'
+            }
+            if(id.includes('faker') || id.includes('mock')){
+              return 'mock'
+            }
+            if(id.includes('node_modules')){
+              return 'vendor'
+            }
+          }
+      }
+    }
+  },
   plugins: [
     vue(),
     vueJsx({

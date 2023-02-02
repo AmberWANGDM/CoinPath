@@ -27,8 +27,6 @@ export const Overlay = defineComponent({
       }).then(() => {
         localStorage.removeItem('jwt')
         window.location.reload()
-      }).catch(() => {
-        props.onClose?.()
       })
     }
     return () =>

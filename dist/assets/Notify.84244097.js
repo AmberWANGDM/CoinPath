@@ -1,0 +1,1 @@
+import{C as o}from"./ComingSoon.995efbdf.js";import{bF as t,bE as r}from"./vendor.6788785e.js";import"./index.7b2c7a55.js";import"./vant.1989d0ae.js";import"./mock.8b5afd9c.js";const f=t({props:{name:{type:String}},setup:(e,p)=>()=>r(o,null,null)});export{f as default};
