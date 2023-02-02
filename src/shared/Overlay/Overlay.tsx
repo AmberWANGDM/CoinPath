@@ -22,13 +22,14 @@ export const Overlay = defineComponent({
     })
     const onSignOut = () => {
       Dialog.confirm({
-        title: '确定',
+        title: '退出登录',
         message: '确定要退出登录吗？'
       }).then(() => {
         localStorage.removeItem('jwt')
-        router.push('/sign_in')
+        window.location.reload()
+      }).catch(() => {
+        props.onClose?.()
       })
-        .catch(() => { })
     }
     return () =>
       <>

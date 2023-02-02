@@ -2,11 +2,14 @@ import { defineComponent, PropType } from 'vue';
 import s from './Center.module.scss';
 
 const directionMap: Record<string, string> = {
-  '-': 'horizontal',
-  '|': 'vertical'
+  '-': s.horizontal,
+  '|': s.vertical,
+  'horizontal': s.horizontal,
+  'vertical': s.vertical
 }
 
 export const Center = defineComponent({
+  name: 'Center',
   props: {
     direction: {
       type: String as PropType<'-' | 'horizontal' | '|' | 'vertical'>,

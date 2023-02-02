@@ -1,11 +1,11 @@
-.center{
+.center {
   display: flex;
   justify-content: center;
   align-items: center;
-  &.horizontal{
+  &.horizontal {
     flex-direction: row;
   }
-  &.vertical{
+  &.vertical {
     flex-direction: column;
   }
 }
