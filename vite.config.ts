@@ -8,7 +8,7 @@ import { svgstore } from './src/vite_plugins/svgstore'
 export default defineConfig(({ command }) => {
   return {
     define: command === 'build' ? { DEBUG: false } : { DEBUG: true },
-    base: 'https://coinpath.oss-cn-hangzhou.aliyuncs.com',
+    base: 'https://coinpath-1314023811.cos.ap-beijing.myqcloud.com',
     build: {
       rollupOptions: {
         output: {
