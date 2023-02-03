@@ -15,8 +15,8 @@ const SignInPage = defineComponent({
   setup: (props, context) => {
     const meStore = useMeStore()
     const formData = reactive({
-      email: 'wangdanmeng98@163.com',
-      code: '123456',
+      email: '',
+      code: '',
     })
     const errors = reactive({
       email: [],
@@ -26,6 +26,13 @@ const SignInPage = defineComponent({
     const { ref: refDisabled, on: disable, off: enable } = useBool(false)
     const router = useRouter()
     const route = useRoute()
+    const isPreview = route.query.preview?.toString()
+    if (isPreview === 'yes') {
+      Object.assign(formData, {
+        email: 'wangdanmeng98@163.com',
+        code: '123456',
+      })
+    }
     const onSubmit = async (e: Event) => {
       e.preventDefault()
       Object.assign(errors, { email: [], code: [] })
@@ -80,6 +87,7 @@ const SignInPage = defineComponent({
                 <Icon name="logo" class={s.icon} />
               </div>
               <Form onSubmit={onSubmit}>
+                {isPreview === 'yes' && <p class={s.previewNote}>体验账号，可直接登录</p>}
                 <FormItem
                   label="邮箱地址"
                   type="text"
@@ -93,7 +101,7 @@ const SignInPage = defineComponent({
                   placeholder="请输入验证码"
                   v-model={formData.code}
                   error={errors.code?.[0]}
-                  countFrom={3}
+                  countFrom={60}
                   ref={refValidationCode}
                   onClick={onClickSendValidationCode}
                   disabled={refDisabled.value}
