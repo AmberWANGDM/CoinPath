@@ -85,7 +85,8 @@ export const ItemSummary = defineComponent({
               </ol>
               <div class={s.more}>
                 {itemStore.hasMore ?
-                  <Button onClick={() => itemStore.fetchNextPage(props.startDate, props.endDate)}>加载更多</Button> :
+                  <Button class={s.loadMoreButton}
+                    onClick={() => itemStore.fetchNextPage(props.startDate, props.endDate)}>加载更多</Button> :
                   <span>没有更多</span>
                 }
               </div>
@@ -94,13 +95,13 @@ export const ItemSummary = defineComponent({
             <>
               <Center direction='|' class={s.start_center_wrapper}>
                 <Icon name="startCenter" class={s.start_center} />
-                <p>点击开始记账记一笔吧！</p>
+                <p class={s.noDataText}>暂无数据，点击下方开始记账</p>
+                <div class={s.button_wrapper}>
+                  <RouterLink to="/items/create">
+                    <Button class={s.button}>开始记账</Button>
+                  </RouterLink>
+                </div>
               </Center>
-              <div class={s.button_wrapper}>
-                <RouterLink to="/items/create">
-                  <Button class={s.button}>开始记账</Button>
-                </RouterLink>
-              </div>
               <RouterLink to="/items/create">
                 <FloatButton iconName='add' />
               </RouterLink>

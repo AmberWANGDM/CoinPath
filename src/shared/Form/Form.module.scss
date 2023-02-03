@@ -37,6 +37,10 @@
     border: 1px solid var(--input-border-color);
     border-radius: var(--input-radius);
     padding: 0 8px;
+    width: 200px;
+    min-height: 20px;
+    font-size: 16px;
+    text-align: center;
   }
   &_name {
   }

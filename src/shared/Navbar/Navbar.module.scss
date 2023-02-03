@@ -1,10 +1,6 @@
 .navbar {
   // 渐变
-  background: linear-gradient(
-    180deg,
-    var(--navbar-bg-start) 30%,
-    var(--navbar-bg-end) 100%
-  );
+  background: linear-gradient(180deg, var(--navbar-bg-start) 30%, var(--navbar-bg-end) 100%);
   color: var(--navbar-text-color);
   display: flex;
   justify-content: flex-start;
@@ -21,7 +17,7 @@
     fill: #3d3d3d;
   }
   > .title {
-    font-size: 24px;
-    font-weight: 500;
+    font-size: 22px;
+    font-weight: 400;
   }
 }

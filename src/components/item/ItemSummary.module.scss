@@ -6,7 +6,7 @@
 .wrapper {
   .button {
     display: block;
-    width: 100%;
+    width: 200px;
     &_wrapper {
       padding: 16px 57px;
     }
@@ -15,9 +15,12 @@
     width: 280px;
     height: 280px;
     &_wrapper {
-      margin-top: 180px;
+      margin-top: 80px;
       margin-bottom: 20px;
     }
+  }
+  .noDataText {
+    color: #999;
   }
 
   .navIcon {
@@ -90,4 +93,10 @@
   padding-top: 24px;
   padding-bottom: 24px;
   text-align: center;
+  .loadMoreButton {
+    width: 110px;
+    background-color: transparent;
+    border: none;
+    color: #999;
+  }
 }

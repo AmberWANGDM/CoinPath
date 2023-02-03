@@ -26,8 +26,8 @@ export const InputPad = defineComponent({
       { text: '9', onClick: () => { appendText(9) } },
       { text: '0', onClick: () => { appendText(0) } },
       { text: '.', onClick: () => { appendText('.') } },
-      { text: 'Del', onClick: () => { delText() } },
       { text: '清空', onClick: () => { clearText() } },
+      { text: 'Del', onClick: () => { delText() } },
       {
         text: '提交', onClick: () => {
           context.emit('update:amount', parseFloat(refAmount.value) * 100)
@@ -119,7 +119,7 @@ export const InputPad = defineComponent({
         <div class={s.buttons}>
           {
             buttons.map(button =>
-              <button onClick={button.onClick}>{button.text}</button>
+              <button onClick={button.onClick} onTouchstart={() => { }}>{button.text}</button>
             )
           }
         </div>

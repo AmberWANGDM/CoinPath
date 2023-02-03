@@ -55,7 +55,7 @@ http.instance.interceptors.request.use((config) => {
 })
 
 // 测试环境mock
-if (DEBUG) {
+if (false && DEBUG) {
   import('../mock/mock').then(({ mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession, mocktagEdit, mockTagIndex, mockTagShow }) => {
     const mock = (response: AxiosResponse) => {
       switch (response.config?._mock) {
