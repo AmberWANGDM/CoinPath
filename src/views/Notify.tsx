@@ -1,5 +1,7 @@
 import { defineComponent, PropType } from 'vue';
+import { MainLayout } from '../layouts/MainLayout';
 import { ComingSoon } from '../shared/ComingSoon/ComingSoon';
+import { OverlayIcon } from '../shared/Overlay/Overlay';
 const Notify = defineComponent({
   props: {
     name: {
@@ -8,7 +10,13 @@ const Notify = defineComponent({
   },
   setup: (props, context) => {
     return () => (
-      <ComingSoon />
+      <MainLayout>
+        {{
+          title: () => '记账提醒',
+          icon: () => <OverlayIcon />,
+          default: () => <ComingSoon />
+        }}
+      </MainLayout>
     )
   }
 })

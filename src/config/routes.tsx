@@ -44,6 +44,7 @@ export const routes: RouteRecordRaw[] = [
     path: '/sign_in', component: () => import('../views/SignInPage')
   },
   {
+
     path: '/statistics', component: () => import('../views/StatisticsPage')
   },
   {

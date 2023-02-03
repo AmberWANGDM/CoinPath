@@ -12,12 +12,12 @@
   --button-bg-danger: #bd3037;
   --button-text: #3d3d3d;
   --button-font-size: 18px;
-  --button-radius: 12px;
+  --button-radius: 20px;
   --button-height: 48px;
   --button-border-color: #ddd;
   // 浮动按钮
-  --float-button-bg: rgba(249, 216, 120, 0.6);
-  --float-button-text: rgba(61, 61, 61, 0.6);
+  --float-button-bg: var(--button-bg);
+  --float-button-text: #3d3d3dbf;
   // Navbar
   --navbar-bg-start: #faad14;
   --navbar-bg-end: #ffd666;
