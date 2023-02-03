@@ -128,7 +128,7 @@ export const TimeTabsLayout = defineComponent({
                         v-model={tempCustomTime.start}
                       />
                       <FormItem
-                        label="结束时间"
+                        label="结束时间(不包含)"
                         type="date"
                         placeholder='请选择结束时间'
                         v-model={tempCustomTime.end}

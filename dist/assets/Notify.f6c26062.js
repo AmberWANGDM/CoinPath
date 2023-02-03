@@ -1,0 +1,1 @@
+import{O as t,M as n}from"./index.f4df8a65.js";import{C as e}from"./ComingSoon.26145583.js";import{bF as r,bE as o}from"./vendor.6788785e.js";import"./vant.1989d0ae.js";const u=r({props:{name:{type:String}},setup:(l,a)=>()=>o(n,null,{title:()=>"\u8BB0\u8D26\u63D0\u9192",icon:()=>o(t,null,null),default:()=>o(e,null,null)})});export{u as default};

@@ -7,6 +7,7 @@ import { BackIcon } from '../../shared/BackIcon'
 import { http } from '../../shared/Http'
 import { Tab, Tabs } from '../../shared/Tabs/Tabs'
 import { hasError, validate } from '../../shared/validate'
+import { useUserPreference } from '../../stores/useUserPreference'
 import s from './CreateItem.module.scss'
 import { InputPad } from './InputPad'
 import { Tags } from './Tags'
@@ -19,8 +20,9 @@ export const CreateItem = defineComponent({
   },
   setup: (props, context) => {
     const router = useRouter()
+    const userPreferenceStore = useUserPreference('createItem')()
     const formData = reactive<Partial<Item>>({
-      kind: 'expenses',
+      kind: userPreferenceStore.kind,
       tag_ids: [],
       amount: 0,
       happen_at: new Date().toISOString(),
@@ -57,6 +59,7 @@ export const CreateItem = defineComponent({
       router.push('/items')
     }
     watch(() => formData.kind, (kind) => {
+      userPreferenceStore.changeKind(kind!)
       formData.tag_ids = []
     })
     return () => (
